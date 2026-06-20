@@ -1,0 +1,179 @@
+{% extends 'accounts/dashboard_base.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block title %}Afterword | Write New Post{% endblock %}
+
+{% block global_extra_css %}
+<link rel="stylesheet" href="{% static 'blog/css/write_post.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="write-post-page-v1">
+    
+    <section class="write-post-section-v1">
+        
+        <div class="write-post-card">
+            
+            <h1>Write New Post</h1>
+            <p class="write-post-subtitle">
+                Share your thoughts, stories, or knowledge with the world.
+            </p>
+            
+            <form class="write-post-form" method="POST" action="{% url 'blog:write_post' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{form.title.id_for_label}}">Post Title</label>
+                    {{form.title}}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{form.content.id_for_label}}">Content</label>
+                    {{form.content}}
+                </div>
+                
+                <!-- بخش وضعیت جدید با سه گزینه -->
+                <div class="form-group">
+                    <label>Publish Options</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="publish_option" value="draft" checked>
+                            <span>Draft</span>
+                            <small>Save as draft, publish later</small>
+                        </label>
+                        
+                        <label class="radio-option">
+                            <input type="radio" name="publish_option" value="now">
+                            <span>Publish Now</span>
+                            <small>Publish immediately</small>
+                        </label>
+                        
+                        <label class="radio-option">
+                            <input type="radio" name="publish_option" value="schedule">
+                            <span>Schedule</span>
+                            <small>Choose a future date and time</small>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- فیلد تاریخ انتشار (فقط برای گزینه Schedule) -->
+                <div class="form-group" id="publishDateGroup" style="display: none;">
+                    <label for="{{form.publish_date.id_for_label}}">Schedule Date & Time <span class="required">*</span></label>
+                    {{form.publish_date}}
+                    <div class="help-text">Select a future date and time for automatic publishing</div>
+                </div>
+                
+                <!-- فیلد وضعیت مخفی (برای فرم) -->
+                <input type="hidden" name="status" id="id_status_hidden" value="draft">
+                
+                <div class="form-group">
+                    <label for="{{form.img.id_for_label}}">Featured Image <span class="optional">(Optional)</span></label>
+                    {{form.img}}
+                    <div class="help-text">Upload a JPG, PNG or GIF. Max size: 5MB</div>
+                    <div class="image-preview" id="imagePreview" style="display: none; margin-top: 10px;">
+                        <img src="" alt="Preview" id="previewImg" style="max-width: 100%; max-height: 200px; border-radius: 8px;">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" name="action" class="submit-btn">
+                        Save Post
+                    </button>
+                </div>
+                
+            </form>
+            
+            <div class="back-link">
+                ← <a href="{% url 'blog:my_posts' %}">Back to My Posts</a>
+            </div>
+            
+        </div>
+        
+    </section>
+    
+</main>
+
+<script>
+    // المنت‌ها
+    const publishOptions = document.querySelectorAll('input[name="publish_option"]');
+    const publishDateGroup = document.getElementById('publishDateGroup');
+    const statusHidden = document.getElementById('id_status_hidden');
+    const dateInput = document.getElementById('id_publish_date');
+    
+    // تغییر وضعیت با انتخاب گزینه‌ها
+    publishOptions.forEach(option => {
+        option.addEventListener('change', function() {
+            const value = this.value;
+            
+            if (value === 'draft') {
+                // پیش‌نویس
+                publishDateGroup.style.display = 'none';
+                statusHidden.value = 'draft';
+                if (dateInput) dateInput.required = false;
+                
+            } else if (value === 'now') {
+                // انتشار فوری
+                publishDateGroup.style.display = 'none';
+                statusHidden.value = 'published';
+                if (dateInput) {
+                    dateInput.value = '';
+                    dateInput.required = false;
+                }
+                
+            } else if (value === 'schedule') {
+                // برنامه‌ریزی شده
+                publishDateGroup.style.display = 'block';
+                statusHidden.value = 'published';
+                if (dateInput) dateInput.required = true;
+            }
+        });
+    });
+    
+    // پیش‌نمایش تصویر
+    const imgInput = document.getElementById('id_img');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+    
+    if (imgInput) {
+        imgInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+                previewImg.src = '';
+            }
+        });
+    }
+    
+    // تنظیم min تاریخ به الان (فقط زمان‌های آینده قابل انتخاب)
+    if (dateInput) {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        
+        dateInput.min = `${year}-${month}-${day}T${hours}:${minutes}`;
+        
+        // اعتبارسنجی سمت کلاینت
+        dateInput.addEventListener('change', function() {
+            const selectedDate = new Date(this.value);
+            if (selectedDate < now) {
+                alert('Please select a future date and time.');
+                this.value = '';
+            }
+        });
+    }
+</script>
+{% endblock %}

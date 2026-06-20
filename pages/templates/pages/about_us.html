@@ -1,0 +1,106 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block title %}About Us{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pages/css/about_us.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="about-page-v2">
+
+    <!-- =========================
+         HERO / ABOUT SECTION
+    ========================== -->
+    <section class="about-hero-v2">
+
+        <div class="hero-header">
+            <h1>About Us</h1>
+            <p class="hero-subtitle">
+                A thoughtful platform built with purpose, integrity, and vision.
+            </p>
+        </div>
+
+        <div class="about-card">
+
+            <div class="about-block">
+                <h3>Who We Are</h3>
+                <p>
+                    Pasnevesht was founded by Vasi, an enthusiastic computer
+                    engineering student driven by a passion for meaningful
+                    technology and responsible digital systems.
+                </p>
+            </div>
+
+            <div class="about-block">
+                <h3>Our Mission</h3>
+                <ul>
+                    <li>Provide a secure environment for scheduled communication.</li>
+                    <li>Ensure reliability and integrity in automated delivery.</li>
+                    <li>Preserve messages with dignity and foresight.</li>
+                </ul>
+            </div>
+
+            <div class="about-block">
+                <h3>Our Vision</h3>
+                <ul>
+                    <li>Bridge technology and human continuity.</li>
+                    <li>Create systems built on trust and clarity.</li>
+                    <li>Design platforms that endure beyond time.</li>
+                </ul>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACT SECTION
+    ========================== -->
+    <section class="contact-section-v2" id="contact_us">
+
+        <div class="contact-container-v2">
+
+            <h2>Contact Us</h2>
+
+            <p class="contact-intro">
+                We welcome inquiries, collaborations, and feedback.
+                You may reach us directly or submit the form below.
+            </p>
+
+            <div class="contact-grid">
+
+                <!-- LEFT SIDE INFO -->
+                <div class="contact-info">
+                    <h4>Direct Communication</h4>
+                    <ul>
+                        <li>Email: 
+                            <a href="mailto:vasi.codes@gmail.com">
+                                vasi.codes@gmail.com
+                            </a>
+                        </li>
+                        <li>Response Time: Within 24–48 hours</li>
+                        <li>Availability: Online Support</li>
+                    </ul>
+                </div>
+
+                <!-- RIGHT SIDE FORM -->
+                <form class="contact-form-v2">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email Address" required>
+                    <textarea rows="5" placeholder="Your Message" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+{% endblock %}

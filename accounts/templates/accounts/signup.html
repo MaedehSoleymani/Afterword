@@ -1,0 +1,86 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/signup.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-signup-container">
+    <div class="auth-signup-body">
+        <div class="auth-signup-wrapper">
+            <div class="auth-signup-card">
+                <h1>Create Account</h1>
+                <p class="auth-signup-subtitle">
+                    Establish your presence and schedule your future messages with confidence.
+                </p>
+
+                <form class="auth-signup-form" method="POST" action="{% url 'accounts:signup' %}">
+                    {% csrf_token %}
+
+                    <div class="auth-form-group">
+                        <label for="{{ form.email.id_for_label }}">Email Address</label>
+                        {{ form.email|add_class:"auth-input"|attr:"placeholder:Enter your email" }}
+                        {% if form.email.errors %}
+                            <div class="auth-error-message">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label for="{{ form.password1.id_for_label }}">Choose a Password</label>
+                        {{ form.password1|add_class:"auth-input"|attr:"placeholder:Create a secure password1" }}
+                        {% if form.password1.help_text %}
+                            <small class="auth-help-text">{{ form.password1.help_text|safe }}</small>
+                        {% endif %}
+                        {% if form.password1.errors %}
+                            <div class="auth-error-message">
+                                {% for error in form.password1.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="auth-form-group">
+                        <label for="{{ form.password2.id_for_label }}">Confirm your Password</label>
+                        {{ form.password2|add_class:"auth-input"|attr:"placeholder:Confirm your Password you chose above" }}
+                        {% if form.password2.help_text %}
+                            <small class="auth-help-text">{{ form.password2.help_text|safe }}</small>
+                        {% endif %}
+                        {% if form.password2.errors %}
+                            <div class="auth-error-message">
+                                {% for error in form.password2.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="auth-form-group auth-checkbox-group">
+                        <input type="checkbox" required>
+                        <span>I agree to <a class="auth-check-link" href="{% url 'pages:tos' %}">the Terms & Conditions</a> and <a class="auth-check-link" href="{% url 'pages:privacy' %}">Privacy Policy</a></span>
+                    </div>
+
+                    <button type="submit" class="auth-signup-btn">
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="auth-login-redirect">
+                    Already have an account?
+                    <a href="{% url 'accounts:login' %}">Log In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

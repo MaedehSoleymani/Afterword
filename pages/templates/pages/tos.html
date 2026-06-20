@@ -1,0 +1,95 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block title %}Terms Of Services{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pages/css/tos.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="terms-page-v1">
+
+    <section class="terms-hero-v1">
+
+        <div class="terms-header">
+            <h1>Terms & Conditions</h1>
+            <p class="terms-subtitle">
+                Please review the following terms carefully before using our platform.
+            </p>
+        </div>
+
+        <div class="terms-card">
+
+            <div class="terms-block">
+                <h3>1. Acceptance of Terms</h3>
+                <p>
+                    By accessing and using Pasnevesht, you acknowledge that you
+                    have read, understood, and agreed to be bound by these
+                    Terms and Conditions.
+                </p>
+            </div>
+
+            <div class="terms-block">
+                <h3>2. Description of Service</h3>
+                <ul>
+                    <li>Users may compose and schedule messages for future delivery.</li>
+                    <li>Messages will be automatically sent to the designated recipient via email.</li>
+                    <li>Delivery is dependent upon system availability and valid email credentials.</li>
+                </ul>
+            </div>
+
+            <div class="terms-block">
+                <h3>3. User Responsibilities</h3>
+                <ul>
+                    <li>Provide accurate and lawful information.</li>
+                    <li>Refrain from submitting harmful, illegal, or abusive content.</li>
+                    <li>Maintain confidentiality of login credentials.</li>
+                </ul>
+            </div>
+
+            <div class="terms-block">
+                <h3>4. Privacy & Data Handling</h3>
+                <ul>
+                    <li>User data is handled with reasonable security practices.</li>
+                    <li>We do not sell personal information to third parties.</li>
+                    <li>Stored messages remain confidential and protected.</li>
+                </ul>
+            </div>
+
+            <div class="terms-block">
+                <h3>5. Limitation of Liability</h3>
+                <p>
+                    Pasnevesht shall not be held liable for delivery failures
+                    caused by incorrect recipient information, email provider
+                    restrictions, technical outages, or circumstances beyond
+                    reasonable control.
+                </p>
+            </div>
+
+            <div class="terms-block">
+                <h3>6. Modifications</h3>
+                <p>
+                    We reserve the right to revise these Terms at any time.
+                    Continued use of the platform constitutes acceptance of
+                    updated terms.
+                </p>
+            </div>
+
+            <div class="terms-block">
+                <h3>7. Contact</h3>
+                <p>
+                    For legal inquiries regarding these Terms, please contact:
+                    <a href="mailto:vasi.codes@gmail.com">
+                        vasi.codes@gmail.com
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+{% endblock %}

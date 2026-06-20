@@ -1,0 +1,72 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block title %}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/dashboard_base.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="dash-base-main">
+
+    <div class="dash-base-layout">
+
+        <!-- Sidebar -->
+        <aside class="dash-base-sidebar">
+
+            <div class="dash-base-logo">
+                <h2>Pasnevesht</h2>
+            </div>
+
+            <nav class="dash-base-nav">
+                <ul>
+                    <a href="{% url 'accounts:dashboard' %}" class="{% if request.path == '/accounts/dashboard' %}active-li{% endif %}"><li>Dashboard</li></a>
+                    <a href="{% url 'accounts:add_message' %}" class="{% if request.path == '/accounts/dashboard/add_message' %}active-li{% endif %}"><li>Add A Message</li></a>      
+                    <a href="{% url 'accounts:my_messages' %}" class="{% if request.path == '/accounts/dashboard/my_messages' %}active-li{% endif %}"><li>My Messages</li></a>
+                    <a href="{% url 'accounts:contacts' %}" class="{% if request.path == '/accounts/dashboard/contacts' %}active-li{% endif %}"><li>My Registered Emails</li></a>
+                    <a href="{% url 'accounts:account_settings' %}" class="{% if request.path == '/accounts/dashboard/account_settings' %}active-li{% endif %}"><li>Account Settings</li></a>
+                </ul>
+            </nav>
+
+        </aside>
+
+        <!-- Main Content -->
+        <section class="dash-base-content">
+
+            {% block dash_content %}
+            {% endblock %}
+
+            <!-- Stats -->
+            {% if request.resolver_match.url_name == 'dashboard' %}
+            <div class="dash-base-stats">
+
+                <div class="dash-base-stat-card">
+                    <h3>{{total_messages}}</h3>
+                    <p>Total Messages</p>
+                </div>
+
+                <div class="dash-base-stat-card">
+                    <h3>{{scheduled_messages}}</h3>
+                    <p>Scheduled Messages</p>
+                </div>
+
+                <div class="dash-base-stat-card">
+                    <h3>{{unscheduled_messages}}</h3>
+                    <p>Unscheduled Messages</p>
+                </div>
+
+                <div class="dash-base-stat-card">
+                    <h3>{{registered_emails}}</h3>
+                    <p>Registered Emails</p>
+                </div>
+
+            </div>
+            {% endif %}
+        </section>
+
+    </div>
+
+</main>
+{% endblock %}

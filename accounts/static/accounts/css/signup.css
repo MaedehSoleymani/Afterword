@@ -1,0 +1,147 @@
+/* accounts/css/signup.css */
+/* ایزوله کردن کامل با namespace */
+.auth-signup-container {
+    --primary-color: #1e3a8a;
+    --text-light: #e5e7eb;
+    --white: #ffffff;
+}
+
+.auth-signup-container * {
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.auth-signup-body {
+    background-color: #ffffff;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.auth-signup-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.auth-signup-card {
+    background-color: var(--primary-color);
+    width: 100%;
+    max-width: 460px;
+    padding: 50px 40px;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+    color: var(--white);
+}
+
+.auth-signup-card h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.auth-signup-subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.auth-signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.auth-form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-form-group label {
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--text-light);
+}
+
+.auth-form-group input {
+    padding: 12px 14px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: var(--white);
+    color: #0f172a;
+    width: 100%;
+}
+
+.auth-form-group input:focus {
+    outline: 2px solid #2563eb;
+}
+
+.auth-error-message {
+    color: #fecaca;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.auth-checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.auth-checkbox-group input {
+    width: auto;
+    accent-color: #2563eb;
+}
+
+.auth-check-link {
+    color: #c9c9c9;
+    text-decoration: none;
+}
+
+.auth-check-link:hover {
+    text-decoration: underline;
+}
+
+.auth-signup-btn {
+    margin-top: 10px;
+    padding: 12px;
+    background-color: var(--white);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+    font-size: 16px;
+}
+
+.auth-signup-btn:hover {
+    background-color: #f3f4f6;
+    transform: translateY(-1px);
+}
+
+.auth-login-redirect {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.auth-login-redirect a {
+    color: var(--white);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-login-redirect a:hover {
+    text-decoration: underline;
+}

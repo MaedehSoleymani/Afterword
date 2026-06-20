@@ -1,0 +1,122 @@
+{% extends 'accounts/dashboard_base.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block title %}Dashboard | Edit Message{% endblock %}
+
+{% block global_extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/dash_edit_message.css' %}">
+{% endblock %}
+
+{% block dash_content %}
+<div class="edit-msg-container">
+    <div class="edit-msg-card">
+        <div class="edit-msg-header">
+            <h2 class="edit-msg-title">Edit Message</h2>
+            <a href="{% url 'accounts:my_messages' %}" class="edit-msg-back-btn">← Back to Messages</a>
+        </div>
+        
+        <form class="edit-msg-form" method="POST">
+            {% csrf_token %}
+            
+            <div class="edit-msg-row">
+                <div class="edit-msg-field">
+                    <label for="{{ form.receiver.id_for_label }}" class="edit-msg-label">
+                        Receiver Email <span class="edit-msg-required">*</span>
+                    </label>
+                    {{form.receiver|add_class:"edit-msg-input"| attr:"name=receiver"| attr:"placeholder:receiver@example.com"| attr:"list:contact-list"}}
+                    <datalist id="contact-list">
+                        {% for contact in contacts %}
+                            <option value="{{ contact.email }}">
+                                {% if contact.name %}{{ contact.name }} - {% endif %}{{ contact.email }}
+                            </option>
+                        {% endfor %}
+                    </datalist>
+                    {% if forms.errors %}
+                    <div>{{form.receiver.errors}}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="edit-msg-field">
+                    <label for="{{ form.subject.id_for_label }}" class="edit-msg-label">
+                        Subject <span class="edit-msg-required">*</span>
+                    </label>
+                    {{ form.subject|add_class:"edit-msg-input"|attr:"placeholder:Enter message subject" }}
+                    {% if form.subject.errors %}
+                        <div class="edit-msg-error">{{ form.subject.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="edit-msg-field">
+                <label for="{{ form.message.id_for_label }}" class="edit-msg-label">
+                    Message <span class="edit-msg-required">*</span>
+                </label>
+                {{ form.message|add_class:"edit-msg-textarea"|attr:"placeholder:Write your message here..."|attr:"rows:6" }}
+                {% if form.message.errors %}
+                    <div class="edit-msg-error">{{ form.message.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="edit-msg-field">
+                <label for="{{ form.scheduled_date.id_for_label }}" class="edit-msg-label">
+                    Scheduled Date <span class="edit-msg-optional">(Optional)</span>
+                </label>
+                {{ form.scheduled_date|add_class:"edit-msg-input edit-msg-date"|attr:"type:datetime-local" }}
+                {% if form.scheduled_date.errors %}
+                    <div class="edit-msg-error">{{ form.scheduled_date.errors }}</div>
+                {% endif %}
+                <p class="edit-msg-hint">Leave empty to save as draft. Set a future date to schedule delivery.</p>
+            </div>
+            
+            <div class="edit-msg-actions">
+                <button type="submit" class="edit-msg-save-btn">Save Changes</button>
+                <a href="{% url 'accounts:my_messages' %}" class="edit-msg-cancel-btn">Cancel</a>
+            </div>
+        </form>
+        
+        <div class="edit-msg-info">
+            <div class="edit-msg-info-item">
+                <span class="edit-msg-info-label">Created:</span>
+                <span class="edit-msg-info-value">{{ letter.created_date|date:"F j, Y - H:i" }}</span>
+            </div>
+            <div class="edit-msg-info-item">
+                <span class="edit-msg-info-label">Current Status:</span>
+                <span class="edit-msg-info-value edit-msg-status-{{ letter.status|default:'not_scheduled' }}">
+                    {{ letter.get_status_display|default:"Not Scheduled" }}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.querySelector('input[type="datetime-local"]');
+        if (dateInput) {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            dateInput.min = minDateTime;
+            
+            dateInput.addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                if (selectedDate < new Date()) {
+                    alert('You cannot send a letter to the past. Choose a future moment.');
+                    this.value = '';
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

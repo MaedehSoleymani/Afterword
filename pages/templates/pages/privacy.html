@@ -1,0 +1,104 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block title %}Privacy Policy{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pages/css/privacy.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="privacy-page-v1">
+
+    <section class="privacy-hero-v1">
+
+        <div class="privacy-header">
+            <h1>Privacy Policy</h1>
+            <p class="privacy-subtitle">
+                Your privacy, confidentiality, and trust are fundamental to our service.
+            </p>
+        </div>
+
+        <div class="privacy-card">
+
+            <div class="privacy-block">
+                <h3>1. Information We Collect</h3>
+                <ul>
+                    <li>Name and email address provided during registration.</li>
+                    <li>Recipient email addresses for scheduled messages.</li>
+                    <li>Message content and scheduled delivery time.</li>
+                    <li>Technical data such as IP address and browser type.</li>
+                </ul>
+            </div>
+
+            <div class="privacy-block">
+                <h3>2. How We Use Information</h3>
+                <ul>
+                    <li>To process and deliver scheduled messages.</li>
+                    <li>To maintain system integrity and security.</li>
+                    <li>To improve platform performance and reliability.</li>
+                    <li>To communicate important service-related updates.</li>
+                </ul>
+            </div>
+
+            <div class="privacy-block">
+                <h3>3. Data Protection</h3>
+                <p>
+                    We implement reasonable administrative, technical, and
+                    organizational safeguards to protect stored data from
+                    unauthorized access, alteration, disclosure, or destruction.
+                </p>
+            </div>
+
+            <div class="privacy-block">
+                <h3>4. Data Retention</h3>
+                <ul>
+                    <li>Messages are retained only as long as necessary for delivery.</li>
+                    <li>Account information is stored while the account remains active.</li>
+                    <li>Users may request deletion of their data at any time.</li>
+                </ul>
+            </div>
+
+            <div class="privacy-block">
+                <h3>5. Third-Party Services</h3>
+                <p>
+                    Email delivery may rely on secure third-party email providers.
+                    We do not sell, rent, or trade personal information to external parties.
+                </p>
+            </div>
+
+            <div class="privacy-block">
+                <h3>6. User Rights</h3>
+                <ul>
+                    <li>Right to access personal data.</li>
+                    <li>Right to request correction of inaccurate information.</li>
+                    <li>Right to request deletion of personal data.</li>
+                </ul>
+            </div>
+
+            <div class="privacy-block">
+                <h3>7. Policy Updates</h3>
+                <p>
+                    This Privacy Policy may be updated periodically.
+                    Continued use of the platform constitutes acceptance
+                    of any revisions.
+                </p>
+            </div>
+
+            <div class="privacy-block">
+                <h3>8. Contact Information</h3>
+                <p>
+                    For privacy-related inquiries, please contact:
+                    <a href="mailto:vasi.codes@gmail.com">
+                        vasi.codes@gmail.com
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+{% endblock %}

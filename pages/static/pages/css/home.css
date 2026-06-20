@@ -1,0 +1,147 @@
+/* =========================
+   Home Page Layout
+========================= */
+
+.home-page {
+    padding-top: 70px;  /* ارتفاع هدر ثابت */
+}
+
+.home-page section {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0 60px;
+}
+
+/* =========================
+   HERO SECTION
+========================= */
+
+.hero-section {
+    background: url("/static/website/images/bg2.jpg") center/contain no-repeat;
+}
+
+.hero-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.65); /* navy overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 700px;
+    color: #ffffff;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 35px;
+    line-height: 1.6;
+    color: #e5e7eb;
+}
+
+.hero-btn {
+    padding: 12px 28px;
+    background-color: #1e3a8a;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.3s ease;
+}
+
+.hero-btn:hover {
+    background-color: #2563eb;
+}
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.how-section {
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.section-container {
+    max-width: 1100px;
+}
+
+.how-section h2,
+.features-section h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #0f172a;
+}
+
+.section-description {
+    max-width: 700px;
+    margin: 0 auto 50px auto;
+    font-size: 17px;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.step h3 {
+    margin-bottom: 10px;
+    color: #1e3a8a;
+}
+
+.step p {
+    color: #6b7280;
+}
+
+/* =========================
+   FEATURES
+========================= */
+
+.features-section {
+    background-color: #f9fafb;
+    text-align: center;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-top: 50px;
+}
+
+.feature-card {
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    transition: 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card h3 {
+    margin-bottom: 15px;
+    color: #1e3a8a;
+}
+
+.feature-card p {
+    color: #6b7280;
+    line-height: 1.6;
+}

@@ -1,0 +1,171 @@
+{% extends 'accounts/dashboard_base.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block title %}Dashboard | My Registered Emails{% endblock %}
+
+{% block global_extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/dash_contacts.css' %}">
+{% endblock %}
+
+{% block dash_content %}
+<div class="contact-container">
+    <div class="contact-header">
+        <h2 class="contact-title">My Registered Emails</h2>
+        <button class="contact-add-btn" id="openEmailModal">+ Add Email</button>
+    </div>
+
+    <div class="contact-table-wrapper">
+        <table class="contact-table">
+            <thead>
+                <tr>
+                    <th>Name</th>                   
+                    <th>Email Address</th>
+                    <th>Added Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in contact %}
+                <tr>
+                    <td class="contact-cell contact-name-{{ c.id }}">{{ c.name|default:"—" }}</td>
+                    <td class="contact-cell contact-email-{{ c.id }}">{{ c.email }}</td>
+                    <td class="contact-cell">{{ c.created_date|date:"Y-m-d" }}</td>
+                    <td class="contact-cell contact-actions">
+                        <form method="POST" action="{% url 'accounts:contacts' %}" style="display: inline;">  
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="edit_contact">
+                            <input type="hidden" name="contact_id" value="{{ c.id }}">
+                            <button type="button" class="contact-action-btn" 
+                                    onclick="openEditModal('{{ c.id }}', '{{ c.name|default:""|escapejs }}', '{{ c.email }}')">
+                                Edit
+                            </button>
+                        </form>
+                        <form method="POST" action="{% url 'accounts:contacts' %}" style="display: inline;" 
+                              onsubmit="return confirm('Are you sure you want to delete this contact?')">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="delete_contact">
+                            <input type="hidden" name="contact_id" value="{{ c.id }}">
+                            <button type="submit" class="contact-action-btn contact-delete-btn">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="contact-empty">No registered emails found. Add your first email!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal for adding email -->
+<div id="emailModal" class="contact-modal">
+    <div class="contact-modal-content">
+        <div class="contact-modal-header">
+            <h3>Add New Email</h3>
+            <span class="contact-modal-close">&times;</span>
+        </div>
+        <div class="contact-modal-body">
+            <form id="addEmailForm" method="POST" action="{% url 'accounts:contacts' %}">
+                <input type="hidden" name="action" value="add_contact">
+                {% csrf_token %}
+                <div class="contact-form-group">
+                    <label for="{{form.name.id_for_label}}">Enter Name (optional)</label>
+                    {{form.name|attr:"name:name"|attr:"placeholder:Enter Name"}}
+                    {% if form.name.errors %}
+                    <div class="error">{{form.name.errors}}</div>
+                    {% endif %}
+                </div>
+                <div class="contact-form-group">
+                    <label for="{{form.email.id_for_label}}">Email Address</label>
+                    {{form.email|attr:"name:email"|attr:"placeholder:example@domain.com"}}
+                    {% if form.email.errors %}
+                    <div class="error">{{form.email.errors}}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="contact-submit-btn">Add Email</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for editing email (اضافه شده) -->
+<div id="editContactModal" class="contact-modal" style="display: none;">
+    <div class="contact-modal-content">
+        <div class="contact-modal-header">
+            <h3>Edit Contact</h3>
+            <span class="contact-modal-close" onclick="closeEditModal()">&times;</span>
+        </div>
+        <div class="contact-modal-body">
+            <form method="POST" action="{% url 'accounts:contacts' %}" id="editContactForm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="edit_contact">
+                <input type="hidden" name="contact_id" id="edit_contact_id">
+                <div class="contact-form-group">
+                    <label for="edit_name">Name (Optional)</label>
+                    <input type="text" id="edit_name" name="name" class="contact-edit-input" placeholder="Enter name">
+                </div>
+                <div class="contact-form-group">
+                    <label for="edit_email">Email Address</label>
+                    <input type="email" id="edit_email" name="email" class="contact-edit-input" required>
+                </div>
+                <button type="submit" class="contact-submit-btn">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Modal functionality for Add Email
+    const modal = document.getElementById("emailModal");
+    const openBtn = document.getElementById("openEmailModal");
+    const closeBtn = document.querySelector("#emailModal .contact-modal-close");
+
+    if (openBtn) {
+        openBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+    }
+
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+
+    // Modal functionality for Edit Contact
+    const editModal = document.getElementById("editContactModal");
+    
+    function openEditModal(id, name, email) {
+        // پر کردن فرم مودال
+        document.getElementById('edit_contact_id').value = id;
+        document.getElementById('edit_name').value = name === '—' ? '' : name;
+        document.getElementById('edit_email').value = email;
+        
+        // تغییر action فرم مودال
+        const editForm = document.getElementById('editContactForm');
+        editForm.action = "{% url 'accounts:contacts' %}";
+        
+        editModal.style.display = "block";
+    }
+    
+    function closeEditModal() {
+        editModal.style.display = "none";
+        document.getElementById('editContactForm').reset();
+    }
+    
+    // بستن با کلیک روی پس‌زمینه
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        if (event.target == editModal) {
+            closeEditModal();
+        }
+    }
+</script>
+{% endblock %}

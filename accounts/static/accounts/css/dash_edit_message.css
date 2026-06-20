@@ -1,0 +1,243 @@
+/* =========================
+   Edit Message Page - اختصاصی
+   (edit-msg namespace)
+========================= */
+
+.edit-msg-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.edit-msg-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+}
+
+.edit-msg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #f1f5f9;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.edit-msg-title {
+    font-size: 24px;
+    color: #0f172a;
+    font-weight: 600;
+    border-left: 4px solid #1e3a8a;
+    padding-left: 15px;
+}
+
+.edit-msg-back-btn {
+    background-color: #f1f5f9;
+    color: #475569;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.edit-msg-back-btn:hover {
+    background-color: #e2e8f0;
+    transform: translateX(-2px);
+}
+
+.edit-msg-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.edit-msg-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.edit-msg-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-msg-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.edit-msg-required {
+    color: #dc2626;
+    font-size: 12px;
+}
+
+.edit-msg-optional {
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.edit-msg-input,
+.edit-msg-textarea {
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.edit-msg-input:focus,
+.edit-msg-textarea:focus {
+    outline: none;
+    border-color: #1e3a8a;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.edit-msg-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.edit-msg-date {
+    cursor: pointer;
+}
+
+.edit-msg-error {
+    color: #dc2626;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.edit-msg-hint {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 5px;
+}
+
+.edit-msg-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.edit-msg-save-btn {
+    background-color: #1e3a8a;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.edit-msg-save-btn:hover {
+    background-color: #172d6a;
+    transform: translateY(-1px);
+}
+
+.edit-msg-cancel-btn {
+    background-color: #f1f5f9;
+    color: #475569;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.edit-msg-cancel-btn:hover {
+    background-color: #e2e8f0;
+}
+
+.edit-msg-info {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.edit-msg-info-item {
+    display: flex;
+    gap: 8px;
+    font-size: 13px;
+}
+
+.edit-msg-info-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.edit-msg-info-value {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.edit-msg-status-not_scheduled,
+.edit-msg-status-draft {
+    color: #94a3b8;
+}
+
+.edit-msg-status-scheduled {
+    color: #d97706;
+}
+
+.edit-msg-status-sent {
+    color: #059669;
+}
+
+.edit-msg-status-failed {
+    color: #dc2626;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .edit-msg-card {
+        padding: 20px;
+    }
+    
+    .edit-msg-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .edit-msg-title {
+        font-size: 20px;
+    }
+    
+    .edit-msg-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .edit-msg-actions {
+        flex-direction: column;
+    }
+    
+    .edit-msg-save-btn,
+    .edit-msg-cancel-btn {
+        text-align: center;
+    }
+    
+    .edit-msg-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

@@ -1,0 +1,53 @@
+/* Flash Messages */
+.flash-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000; /* بالاتر از همه عناصر */
+  pointer-events: none; /* اجازه کلیک به پشت پیام داده میشه */
+  width: 100%;
+  max-width: 400px;
+}
+
+.flash-message {
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-align: center;
+  margin: 10px auto;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  pointer-events: auto;
+  animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-in 5s forwards;
+}
+
+/* نوع پیام */
+.flash-success {
+  background: linear-gradient(135deg, #51cf66, #40c057);
+}
+
+.flash-error {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+}
+
+.flash-info {
+    background: linear-gradient(135deg, #339af0, #228be6);
+}
+
+.flash-warning {
+    background: linear-gradient(135deg, #fcc419, #fab005);
+}
+
+/* انیمیشن ورود */
+@keyframes slideIn {
+  from { opacity: 0; transform: translate(-50%, -40%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* انیمیشن خروج بعد چند ثانیه */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; visibility: hidden; }
+}

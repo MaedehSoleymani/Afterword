@@ -1,0 +1,80 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block title %}Log In{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<main class="signin-page-v1">
+
+    <section class="signin-section-v1">
+
+        <div class="signin-container">
+
+            <div class="signin-card">
+
+                <h1>Welcome Back</h1>
+                <p class="signin-subtitle">
+                    Access your account and manage your scheduled messages.
+                </p>
+
+                <form class="signin-form" method="POST" action="{% url 'accounts:login' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}">Email Address</label>
+                        {{ form.email|add_class:"auth-input"|attr:"placeholder:Enter your email" }}
+                        {% if form.email.errors %}
+                            <div class="auth-error-message">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{form.password.id_for_label}}'">Password</label>
+                        {{form.password|add_class:"pass"|attr:"placeholder:Enter your password"|attr:"name:password"}}
+                        {% if form.password.errors %}
+                        <div>{{form.password.errors}}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="signin-options">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember_me">
+                            <span>Remember me</span>
+                        </label>
+
+                        <a href="{% url 'accounts:forgot_password' %}" class="forgot-link">
+                            Forgot password?
+                        </a>
+                    </div>
+
+                    <button type="submit" class="signin-btn">
+                        Log In
+                    </button>
+
+                </form>
+
+                <div class="signup-redirect">
+                    Don’t have an account?
+                    <a href="{% url 'accounts:signup' %}">Sign Up</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+{% endblock %}

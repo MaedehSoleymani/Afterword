@@ -1,0 +1,163 @@
+.my-msg-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.my-msg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.my-msg-title {
+    font-size: 22px;
+    color: #0f172a;
+    font-weight: 600;
+    border-left: 4px solid #1e3a8a;
+    padding-left: 15px;
+}
+
+.my-msg-new-btn {
+    background-color: #1e3a8a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.my-msg-new-btn:hover {
+    background-color: #172d6a;
+    transform: translateY(-1px);
+}
+
+.my-msg-table-wrapper {
+    overflow-x: auto;
+}
+
+.my-msg-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.my-msg-table thead tr {
+    background-color: #f1f5f9;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.my-msg-table th {
+    padding: 15px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.my-msg-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+}
+
+.my-msg-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+.my-msg-cell {
+    padding: 15px;
+    font-size: 14px;
+    color: #334155;
+}
+
+.my-msg-status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.my-msg-status-scheduled {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.my-msg-status-sent {
+    background-color: #d1fae5;
+    color: #059669;
+}
+
+.my-msg-empty {
+    text-align: center;
+    padding: 50px;
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.msg-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.msg-cell {
+    padding: 15px;
+    font-size: 14px;
+    color: #334155;
+}
+
+.msg-action-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.msg-delete-btn {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.msg-edit-btn {
+    background-color: #172d6a;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .my-msg-container {
+        padding: 20px;
+    }
+    
+    .my-msg-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .my-msg-title {
+        font-size: 18px;
+    }
+    
+    .my-msg-table th,
+    .my-msg-table td {
+        padding: 10px;
+        font-size: 12px;
+    }
+    
+    .my-msg-status {
+        padding: 3px 8px;
+        font-size: 10px;
+    }
+}

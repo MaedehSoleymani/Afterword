@@ -1,0 +1,96 @@
+/* =========================
+   Terms Page V1 (Isolated)
+========================= */
+
+.terms-page-v1 section {
+    width: 100%;
+    min-height: 100vh;
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================
+   HERO BACKGROUND
+========================= */
+
+.terms-hero-v1 {
+    background-color: #1e3a8a;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.terms-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.terms-header h1 {
+    color: #ffffff;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.terms-subtitle {
+    color: #e5e7eb;
+    font-size: 15px;
+}
+
+/* =========================
+   CARD CONTAINER
+========================= */
+
+.terms-card {
+    background: #ffffff;
+    max-width: 950px;
+    width: 100%;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   CONTENT BLOCKS
+========================= */
+
+.terms-block {
+    margin-bottom: 35px;
+}
+
+.terms-block h3 {
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+.terms-block p {
+    color: #4b5563;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.terms-block ul {
+    padding-left: 20px;
+}
+
+.terms-block li {
+    margin-bottom: 8px;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* =========================
+   LINKS
+========================= */
+
+.terms-block a {
+    color: #1e3a8a;
+    text-decoration: none;
+}
+
+.terms-block a:hover {
+    text-decoration: underline;
+}

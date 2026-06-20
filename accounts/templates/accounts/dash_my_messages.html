@@ -1,0 +1,110 @@
+{% extends 'accounts/dashboard_base.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Dashboard | My Messages{% endblock %}
+
+{% block global_extra_css %}
+
+<link rel="stylesheet" href="{% static 'accounts/css/dash_my_messages.css' %}">
+{% endblock %}
+
+{% block dash_content %}
+
+<div class="my-msg-container">
+
+<div class="my-msg-header">
+    <h2 class="my-msg-title">Pending Messages</h2>
+    <a href="{% url 'accounts:add_message' %}" class="my-msg-new-btn">+ New Message</a>
+</div>
+
+<div class="my-msg-table-wrapper">
+    <table class="my-msg-table">
+        <thead>
+            <tr>
+                <th>Recipient</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Scheduled Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for l in pending_letters %}
+            <tr>
+                <td class="my-msg-cell">{{ l.receiver }}</td>
+                <td class="my-msg-cell">{{ l.subject }}</td>
+                <td class="my-msg-cell">{{ l.message|truncatechars:15 }}</td>
+                <td class="my-msg-cell">{{ l.scheduled_date|default:"Not scheduled" }}</td>
+                <td class="my-msg-cell">
+                    {% if l.status == 'not_scheduled' %}
+                        Not Scheduled
+                    {% elif l.status == 'scheduled' %}
+                        Scheduled
+                    {% elif l.status == 'sent' %}
+                        Sent
+                    {% elif l.status == 'inactivity_triggered' %}
+                        Waiting for Inactivity Trigger
+                    {% else %}
+                        Failed
+                    {% endif %}
+                </td>
+                <td>
+                    <form method="POST" action="{% url 'accounts:letter_actions' lid=l.id %}">
+                        {% csrf_token %}
+                        <button type="submit" name="action" value="edit" class="msg-action-btn">Edit</button>
+                        <button type="submit" name="action" value="send" class="msg-action-btn msg-edit-btn" onclick="return confirm('Are you sure?')">Send Now</button>
+                        <button type="submit" name="action" value="delete" class="msg-action-btn msg-delete-btn" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="my-msg-empty">No pending messages found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<br><br>
+
+<div class="my-msg-header">
+    <h2 class="my-msg-title">Sent Messages</h2>
+</div>
+
+<div class="my-msg-table-wrapper">
+    <table class="my-msg-table">
+        <thead>
+            <tr>
+                <th>Recipient</th>
+                <th>Subject</th>
+                <th>Message</th>
+                <th>Scheduled Date</th>
+                <th>Status</th>
+                <th>Sent Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for l in sent_letters %}
+            <tr>
+                <td class="my-msg-cell">{{ l.receiver }}</td>
+                <td class="my-msg-cell">{{ l.subject }}</td>
+                <td class="my-msg-cell">{{ l.message|truncatechars:15 }}</td>
+                <td class="my-msg-cell">{{ l.scheduled_date|default:"Not scheduled" }}</td>
+                <td class="my-msg-cell">Sent</td>
+                <td class="my-msg-cell">{{ l.sent_date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="my-msg-empty">No sent messages found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</div>
+{% endblock %}

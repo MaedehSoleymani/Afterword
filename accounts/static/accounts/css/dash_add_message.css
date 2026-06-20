@@ -1,0 +1,116 @@
+/* =========================
+   ADD MESSAGE SECTION (اضافه شده)
+========================= */
+
+.add-message-section {
+    margin-bottom: 50px;
+}
+
+.add-message-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 22px;
+    color: #0f172a;
+    margin-bottom: 25px;
+    font-weight: 600;
+    border-left: 4px solid #1e3a8a;
+    padding-left: 15px;
+}
+
+.add-message-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-field.full-width {
+    grid-column: span 2;
+}
+
+.form-field label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+.form-field input,
+.form-field textarea {
+    padding: 12px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+    outline: none;
+    border-color: #1e3a8a;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+    color: #94a3b8;
+}
+
+.submit-message-btn {
+    background-color: #1e3a8a;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+}
+
+.submit-message-btn:hover {
+    background-color: #172d6a;
+    transform: translateY(-1px);
+}
+
+.submit-message-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .form-field.full-width {
+        grid-column: span 1;
+    }
+    
+    .add-message-card {
+        padding: 20px;
+    }
+    
+    .section-title {
+        font-size: 18px;
+    }
+}

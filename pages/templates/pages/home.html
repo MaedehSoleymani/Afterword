@@ -1,0 +1,92 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'pages/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<main class="home-page">
+
+    <!-- 1️⃣ HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <h1>Write Someone a Reminder</h1>
+                <p>
+                    Create a message today that will be delivered in the future —
+                    at the time you choose or if you become inactive.
+                </p>
+                <a href="{% url 'accounts:signup' %}" class="hero-btn">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 2️⃣ HOW IT WORKS -->
+    <section class="how-section" id="howitworks">
+        <div class="section-container">
+            <h2>How It Works</h2>
+            <p class="section-description">
+                Pasnevesht allows you to securely create scheduled messages
+                that will be delivered automatically. You choose the recipient,
+                the delivery condition, and we handle the rest.
+            </p>
+
+            <div class="steps">
+                <div class="step">
+                    <h3>1. Create Your Message</h3>
+                    <p>Write your message and choose the recipient's email address.</p>
+                </div>
+
+                <div class="step">
+                    <h3>2. Set Delivery Conditions</h3>
+                    <p>Select a specific date or define inactivity duration.</p>
+                </div>
+
+                <div class="step">
+                    <h3>3. Automatic Delivery</h3>
+                    <p>The system securely sends your message when conditions are met.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 3️⃣ FEATURES -->
+    <section class="features-section" id="features">
+        <div class="section-container">
+            <h2>Features</h2>
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+                    <h3>Secure Authentication</h3>
+                    <p>Token-based email verification and password recovery system.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Scheduled Delivery</h3>
+                    <p>Send messages at a specific future date and time.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Inactivity Trigger</h3>
+                    <p>Automatically send messages if you stop logging into your account.</p>
+                </div>
+
+                <div class="feature-card">
+                    <h3>Admin Management</h3>
+                    <p>Comprehensive administrative panel for monitoring users and messages.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+{% endblock %}
