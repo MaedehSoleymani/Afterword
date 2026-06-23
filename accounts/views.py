@@ -11,7 +11,7 @@ from accounts.forms import EditEmailForm, SignupForm, LoginForm, C_PasswordReset
 from django.core.mail import send_mail, EmailMultiAlternatives
 from Afterword.settings import DEFAULT_FROM_EMAIL
 from django.contrib.auth.decorators import login_required, permission_required
-from .decorators import c_login_required
+from .decorators import c_login_required, author_required, admin_required
 from accounts.models import UserToken
 from django.template.loader import render_to_string
 from django.utils import timezone
@@ -67,17 +67,19 @@ def login(request):
             email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")
             user=authenticate(request, email=email, password=password)
+            if remember_me:
+                request.session.set_expiry(7*24*60*60)
+            else:
+                request.session.set_expiry(0)
             if user:
                 login_auth(request,user)
-                print("USER AUTH:", request.user.is_authenticated)
-                print("USER:", request.user)
-                request.session.save()
-                if remember_me:
-                    request.session.set_expiry(7*24*60*60)
+                if user.is_superuser:
+                    return redirect('admin:index') 
+                elif user.is_author:
+                    return redirect('blog:author_dashboard')
                 else:
-                    request.session.set_expiry(0)
-                messages.success(request,f'Welcome back, {user.email}. You have been logged in successfully.')
-                return redirect ('accounts:dashboard')
+                    messages.success(request,f'Welcome back, {user.email}. You have been logged in successfully.')
+                    return redirect ('accounts:dashboard')
             else:
                 messages.error(request,'wrong email or password. please try again.')
                 return render(request, 'accounts/login.html', {'form': form})
@@ -91,7 +93,7 @@ def login(request):
 @c_login_required
 def logout(request):
     logout_auth(request)
-    return redirect('website:home')
+    return redirect('pages:home')
 
 @c_login_required
 def dashboard(request):
@@ -111,7 +113,7 @@ def add_message(request):
     user=request.user
     contacts= Contact.objects.filter(user=user).order_by('-created_date')
     if request.method=='POST':
-        form=LetterForm(request.POST)
+        form=LetterForm(request.POST,request.FILES)
         if form.is_valid():
             letter=form.save(commit=False)
             letter.author=user
@@ -177,30 +179,28 @@ def edit_message(request,lid):
     letter=get_object_or_404(Letter,author=request.user,id=lid)
     contacts= Contact.objects.filter(user=user).order_by('-created_date')
     if request.method=='POST':
-        form=LetterForm(request.POST, instance=letter)
+        form=LetterForm(request.POST, request.FILES, instance=letter)
         if form.is_valid():
             letter=form.save(commit=False)
-            letter.author = user
-            
-            send_option = request.POST.get('send_option')
-            inactivity_days = request.POST.get('inactivity_days')
-
-            if send_option == 'inactivity':
-                letter.send_on_inactivity = True
+            letter.author=user
+            send_option=request.POST.get('send_option')
+            inactivity_days=request.POST.get('inactivity_days')
+            if send_option=='inactivity':
+                letter.send_on_inactivity=True
                 letter.inactivity_days = int(inactivity_days) if inactivity_days else 7
-                letter.status = Letter.STATUS_INACTIVITY_TRIGGERED
-                letter.scheduled_date = None
-            elif send_option == 'scheduled' and letter.scheduled_date:
-                letter.send_on_inactivity = False
-                letter.status = Letter.STATUS_SCHEDULED
+                letter.status=Letter.STATUS_INACTIVITY_TRIGGERED
+                letter.scheduled_date=None
+            elif send_option=='scheduled' and letter.scheduled_date:
+                letter.send_on_inactivity=False
+                letter.status=Letter.STATUS_SCHEDULED
             else:
-                letter.send_on_inactivity = False
-                letter.status = Letter.STATUS_NOT_SCHEDULED
-                letter.scheduled_date = None
-            # if letter.scheduled_date:
-            #     letter.status=letter.STATUS_SCHEDULED
-            # else:
-            #     letter.status=letter.STATUS_NOT_SCHEDULED
+                letter.send_on_inactivity=False
+                letter.status=Letter.STATUS_NOT_SCHEDULED
+                letter.scheduled_date=None
+            if request.POST.get('clear_attachment'):
+                if letter.attachment:
+                    letter.attachment.delete(save=False)
+                    letter.attachment = None
             letter.save()
             messages.success(request,'Your changes have been applied successfully.')
             return redirect('accounts:my_messages')
@@ -209,48 +209,8 @@ def edit_message(request,lid):
             return render(request, 'accounts/dash_edit_message.html', {'form': form, 'letter': letter, 'contacts':contacts})
     else:
         form=LetterForm(instance=letter)
-    return render (request,'accounts/dash_edit_message.html',{'letter':letter, 'form':form})
-
-@c_login_required
-def send_message(request, lid):
-    letter=get_object_or_404(Letter,author=request.user,id=lid)
-
-    html_content=render_to_string('emails/send_message_email.html',
-    {
-        'subject': letter.subject,
-        'message_content': letter.message,
-        'sent_at': timezone.now(),
-        'year': timezone.now().year
-    })
-
-    text_content = strip_tags(html_content)
-
-    msg = EmailMultiAlternatives(
-        subject=letter.subject,
-        body=text_content,
-        from_email=DEFAULT_FROM_EMAIL,
-        to=[letter.receiver]
-    )
-
-    msg.attach_alternative(html_content, "text/html")
-
-    try:
-        msg.send()
-        print("email sent")
-        letter.status=Letter.STATUS_SENT
-        print("email status changed")
-        letter.sent_date=timezone.now()
-        print("sent date set")
-        messages.success(request, "Message sent successfully.")
-    except Exception as e:
-        print(f"Email send error: {e}")
-        letter.status=Letter.STATUS_FAILED
-        messages.error(request, "Failed to send message.")
-
-    letter.save()
-    print("status updated")
-
-    return redirect('accounts:my_messages')
+    context={'letter':letter, 'form':form,'contacts': contacts}
+    return render (request,'accounts/dash_edit_message.html',context)
 
 @c_login_required
 def contacts(request):
@@ -347,7 +307,7 @@ def account_settings(request):
              logout_auth(request)
              user.delete()
              messages.success(request,'Your account has been permanently deleted. We are sorry to see you go. You can always create a new account in the future.')
-             return redirect('website:home')
+             return redirect('pages:home')
         else:
             messages.error(request, 'Invalid action.')
             return redirect('accounts:account_settings')
@@ -421,7 +381,6 @@ def send_reset_password(request, token, user):
     reset_url= request.build_absolute_uri(
     reverse('accounts:receive_reset_password', kwargs={'token': token}))
 
-    #email
     subject='Afterword - reset your password'
     html_content=render_to_string('emails/reset_pass_email.html', {
         'reset_url': reset_url,
@@ -476,4 +435,62 @@ def receive_reset_password(request, token):
     else:
         form=C_PasswordResetForm()
     return render(request, 'accounts/reset_password.html', {'form':form,'token':token})
+
+
+@c_login_required
+def send_message(request, lid):
+    letter=get_object_or_404(Letter,author=request.user,id=lid)
+
+    html_content=render_to_string('emails/send_message_email.html',
+    {
+        'subject': letter.subject,
+        'message_content': letter.message,
+        'sent_at': timezone.now(),
+        'year': timezone.now().year
+    })
+
+    text_content = strip_tags(html_content)
+
+    msg = EmailMultiAlternatives(
+        subject=letter.subject,
+        body=text_content,
+        from_email=DEFAULT_FROM_EMAIL,
+        to=[letter.receiver]
+    )
+
+    msg.attach_alternative(html_content, "text/html")
+
+    if letter.attachment:
+        try:
+            letter.attachment.open('rb')
+            file_content = letter.attachment.read()
+            file_name = letter.attachment.name.split('/')[-1]
+            import mimetypes
+            mime_type, _ = mimetypes.guess_type(file_name)
+            if not mime_type:
+                mime_type = 'application/octet-stream'
+            msg.attach(file_name, file_content, mime_type)
+            letter.attachment.close()
+
+        except Exception as e:
+            print(f"Error attaching file: {e}")
+            messages.warning(request, "Message sent but attachment failed.")
+
+    try:
+        msg.send()
+        print("email sent")
+        letter.status=Letter.STATUS_SENT
+        print("email status changed")
+        letter.sent_date=timezone.now()
+        print("sent date set")
+        messages.success(request, "Message sent successfully.")
+    except Exception as e:
+        print(f"Email send error: {e}")
+        letter.status=Letter.STATUS_FAILED
+        messages.error(request, "Failed to send message.")
+
+    letter.save()
+    print("status updated")
+
+    return redirect('accounts:my_messages')
 

@@ -59,6 +59,40 @@
             padding: 20px;
             border-radius: 8px;
             white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+
+        .attachment-box {
+            background-color: #fef3c7;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .attachment-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        .attachment-icon {
+            font-size: 24px;
+        }
+
+        .attachment-info {
+            font-size: 14px;
+            color: #78350f;
+        }
+
+        .attachment-note {
+            font-size: 12px;
+            color: #92400e;
+            margin-top: 8px;
+            font-style: italic;
         }
 
         .meta {
@@ -94,7 +128,7 @@
 
         <div class="email-header">
             <h1>Afterword</h1>
-            <p>You’ve received a new message</p>
+            <p>You've received a new message</p>
         </div>
 
         <div class="email-body">
@@ -103,15 +137,30 @@
                 📩 This message was sent to you by someone through Afterword.
             </div>
 
-            <h3>Message:</h3>
+            <h3>Subject: {{ subject }}</h3>
 
             <div class="message-box">
-                {{subject}}
                 {{ message_content }}
             </div>
 
+            {% if has_attachment %}
+            <div class="attachment-box">
+                <div class="attachment-header">
+                    <span class="attachment-icon">📎</span>
+                    <span>Attachment Included</span>
+                </div>
+                <div class="attachment-info">
+                    <strong>File:</strong> {{ attachment_name }}<br>
+                    <strong>Size:</strong> {{ attachment_size }}
+                </div>
+                <div class="attachment-note">
+                    The attached file is included with this email. Please check your email client's attachments section.
+                </div>
+            </div>
+            {% endif %}
+
             <div class="meta">
-                Sent at: {{ sent_at }} <br>
+                Sent at: {{ sent_at }}
             </div>
 
         </div>

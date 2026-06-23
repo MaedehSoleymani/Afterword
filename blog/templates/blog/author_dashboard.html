@@ -1,11 +1,11 @@
-{% extends 'accounts/dashboard_base.html' %}
+{% extends 'blog/blog_base.html' %}
 
 {% load static %}
 
 {% block title %}Afterword | My Posts{% endblock %}
 
 {% block global_extra_css %}
-<link rel="stylesheet" href="{% static 'blog/css/my_posts.css' %}">
+<link rel="stylesheet" href="{% static 'blog/css/author_dashboard.css' %}">
 {% endblock %}
 
 {% block dash_content %}
@@ -88,13 +88,10 @@
                             {% csrf_token %}
                             <button type="submit" name="action" value="edit" class="post-action-btn">Edit</button>
                             <button type="submit" name="action" value="delete" class="post-action-btn post-delete-btn" onclick="return confirm('Delete this letter? This cannot be undone.')">Delete</button>
+                            {% if post.status == 'draft' %}
+                            <button type="submit" name="action" value="publish" class="delete-btn" style="color: #059669;">🚀 Publish</button>
+                            {% endif %}
                         </form>
-                        {% if post.status == 'draft' %}
-                            <form method="POST" action="" class="publish-form">
-                                {% csrf_token %}
-                                <button type="submit" class="delete-btn" style="color: #059669;">🚀 Publish</button>
-                            </form>
-                        {% endif %}
                     </div>
                 </div>
             </div>

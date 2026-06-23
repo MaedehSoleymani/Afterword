@@ -26,6 +26,7 @@
                 <th>Recipient</th>
                 <th>Subject</th>
                 <th>Message</th>
+                <th>Attachmant</th>
                 <th>Scheduled Date</th>
                 <th>Status</th>
                 <th>Actions</th>
@@ -37,6 +38,11 @@
                 <td class="my-msg-cell">{{ l.receiver }}</td>
                 <td class="my-msg-cell">{{ l.subject }}</td>
                 <td class="my-msg-cell">{{ l.message|truncatechars:15 }}</td>
+                {% if l.attachment %}
+                <td class="my-msg-cell">Yes</td>
+                {% else %}
+                <td class="my-msg-cell">No</td>
+                {% endif %}
                 <td class="my-msg-cell">{{ l.scheduled_date|default:"Not scheduled" }}</td>
                 <td class="my-msg-cell">
                     {% if l.status == 'not_scheduled' %}

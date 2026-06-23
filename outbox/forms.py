@@ -30,14 +30,16 @@ class LetterForm(forms.ModelForm):
 
     class Meta:
         model= Letter
-        fields= ['receiver', 'subject', 'message','scheduled_date']
+        fields= ['receiver', 'subject', 'message','scheduled_date', 'attachment']
 
         widgets={
             'receiver':forms.EmailInput(),
             'subject':forms.TextInput(),
             'message':forms.Textarea(),
             'scheduled_date':forms.DateTimeInput(
-                attrs={'type': 'datetime-local'})}
+                attrs={'type': 'datetime-local'}),
+            'attachment': forms.ClearableFileInput(
+                attrs={'accept': '.pdf,.doc,.docx,.txt,.jpg,.jpeg,.png,.gif'})}
 
     def clean_scheduled_date(self):
         scheduled_date = self.cleaned_data.get('scheduled_date')

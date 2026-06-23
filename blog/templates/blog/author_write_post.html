@@ -1,4 +1,4 @@
-{% extends 'accounts/dashboard_base.html' %}
+{% extends 'blog/blog_base.html' %}
 
 {% load static %}
 
@@ -7,10 +7,10 @@
 {% block title %}Afterword | Write New Post{% endblock %}
 
 {% block global_extra_css %}
-<link rel="stylesheet" href="{% static 'blog/css/write_post.css' %}">
+<link rel="stylesheet" href="{% static 'blog/css/author_write_post.css' %}">
 {% endblock %}
 
-{% block content %}
+{% block dash_content %}
 
 <main class="write-post-page-v1">
     
@@ -88,7 +88,7 @@
             </form>
             
             <div class="back-link">
-                ← <a href="{% url 'blog:my_posts' %}">Back to My Posts</a>
+                ← <a href="{% url 'blog:author_dashboard' %}">Back to My Posts</a>
             </div>
             
         </div>

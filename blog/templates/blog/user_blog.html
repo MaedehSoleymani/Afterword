@@ -1,0 +1,159 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block title %}Afterword Blog | Home{% endblock %}
+
+{% block global_extra_css %}
+<link rel="stylesheet" href="{% static 'blog/css/user_blog.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="blog-home-page">
+    <div class="blog-container">
+        
+        <!-- Hero Section -->
+        <div class="blog-hero">
+            <h1>Welcome to Afterword Blog</h1>
+            <p class="hero-subtitle">Discover stories, thoughts, and ideas from our community</p>
+            
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <form method="GET" action="" class="search-form">
+                    <input type="text" name="q" placeholder="Search articles..." value="{{ request.GET.q }}">
+                    <button type="submit" class="search-btn">🔍 Search</button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Stats Section -->
+        <div class="blog-stats">
+            <div class="stat-item">
+                <div class="stat-value">{{ total_posts }}</div>
+                <div class="stat-label">Articles</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ total_authors }}</div>
+                <div class="stat-label">Authors</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{ this_month_posts }}</div>
+                <div class="stat-label">This Month</div>
+            </div>
+        </div>
+        
+        <!-- Filter Tags -->
+        <div class="filter-tags">
+            <a href="?filter=all" class="filter-tag {% if not request.GET.filter or request.GET.filter == 'all' %}active{% endif %}">All</a>
+            <a href="?filter=recent" class="filter-tag {% if request.GET.filter == 'recent' %}active{% endif %}">Recent</a>
+            <a href="?filter=popular" class="filter-tag {% if request.GET.filter == 'popular' %}active{% endif %}">Popular</a>
+        </div>
+        
+        <!-- Posts Grid -->
+        <div class="posts-grid">
+            {% for post in posts %}
+            <article class="post-card">
+                <!-- Post Image -->
+                <div class="post-image-wrapper">
+                    {% if post.img %}
+                        <img src="{{ post.img.url }}" alt="{{ post.title }}" class="post-image">
+                    {% else %}
+                        <div class="post-image-placeholder">
+                            <span class="placeholder-icon">📝</span>
+                        </div>
+                    {% endif %}
+                    <div class="post-category">
+                        {% if post.status == 'published' %}
+                            {% if post.publish_date and post.publish_date > now %}
+                                <span class="badge scheduled">Scheduled</span>
+                            {% else %}
+                                <span class="badge published">Published</span>
+                            {% endif %}
+                        {% elif post.status == 'draft' %}
+                            <span class="badge draft">Draft</span>
+                        {% elif post.status == 'scheduled' %}
+                            <span class="badge scheduled">Scheduled</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Post Content -->
+                <div class="post-content">
+                    <h2 class="post-title">
+                        <a href="{% url 'blog:post_detail' pid=post.id %}">{{ post.title|default:"Untitled Post" }}</a>
+                    </h2>
+                    
+                    <p class="post-excerpt">
+                        {{ post.content|striptags|truncatewords:50|default:"No content available..." }}
+                    </p>
+                    
+                    <!-- Post Meta -->
+                    <div class="post-meta">
+                        <div class="author-info">
+                            <span class="author-avatar">👤</span>
+                            <span class="author-name">{{ post.author.email|truncatechars:20 }}</span>
+                        </div>
+                        <div class="post-date">
+                            <span class="date-icon">📅</span>
+                            <time datetime="{{ post.created_date|date:'Y-m-d' }}">
+                                {{ post.created_date|date:"M d, Y" }}
+                            </time>
+                        </div>
+                    </div>
+                    
+                    <!-- Read More Link -->
+                    <div class="post-footer">
+                        <a href="{% url 'blog:post_detail' pid=post.id %}" class="read-more">
+                            Read Article →
+                        </a>
+                        <span class="read-time">
+                            {% widthratio post.content|length 200 1 %} min read
+                        </span>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon">📭</div>
+                <h3>No posts yet</h3>
+                <p>There are no blog posts available at the moment. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if posts.has_other_pages %}
+        <div class="pagination-wrapper">
+            <nav class="pagination">
+                {% if posts.has_previous %}
+                    <a href="?page={{ posts.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-link prev">
+                        ← Previous
+                    </a>
+                {% endif %}
+                
+                <div class="pagination-numbers">
+                    {% for num in posts.paginator.page_range %}
+                        {% if posts.number == num %}
+                            <span class="pagination-link current">{{ num }}</span>
+                        {% elif num > posts.number|add:'-3' and num < posts.number|add:'3' %}
+                            <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-link">
+                                {{ num }}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                
+                {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="pagination-link next">
+                        Next →
+                    </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+        
+    </div>
+</div>
+
+{% endblock %}

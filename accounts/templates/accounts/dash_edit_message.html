@@ -18,7 +18,8 @@
             <a href="{% url 'accounts:my_messages' %}" class="edit-msg-back-btn">← Back to Messages</a>
         </div>
         
-        <form class="edit-msg-form" method="POST">
+        <!-- IMPORTANT: Add enctype="multipart/form-data" -->
+        <form class="edit-msg-form" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             
             <div class="edit-msg-row">
@@ -34,8 +35,8 @@
                             </option>
                         {% endfor %}
                     </datalist>
-                    {% if forms.errors %}
-                    <div>{{form.receiver.errors}}</div>
+                    {% if form.receiver.errors %}
+                    <div class="edit-msg-error">{{form.receiver.errors}}</div>
                     {% endif %}
                 </div>
                 
@@ -57,6 +58,33 @@
                 {{ form.message|add_class:"edit-msg-textarea"|attr:"placeholder:Write your message here..."|attr:"rows:6" }}
                 {% if form.message.errors %}
                     <div class="edit-msg-error">{{ form.message.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- NEW: Attachment Field -->
+            <div class="edit-msg-field">
+                <label class="edit-msg-label">
+                    Attachment <span class="edit-msg-optional">(Optional)</span>
+                </label>
+                
+                {% if letter.attachment %}
+                <div class="edit-msg-current-attachment">
+                    <span class="edit-msg-attachment-icon">📎</span>
+                    <span class="edit-msg-attachment-name">Current: {{ letter.attachment.name|cut:"message_attachments/" }}</span>
+                    <a href="{{ letter.attachment.url }}" target="_blank" class="edit-msg-attachment-view">View</a>
+                    <label class="edit-msg-attachment-clear">
+                        <input type="checkbox" name="clear_attachment" value="1">
+                        <span>Remove</span>
+                    </label>
+                </div>
+                {% endif %}
+                
+                <div class="edit-msg-attachment-upload">
+                    {{ form.attachment|add_class:"edit-msg-file-input" }}
+                </div>
+                <p class="edit-msg-hint">Upload PDF, DOC, TXT, or images. Max size: 10MB</p>
+                {% if form.attachment.errors %}
+                    <div class="edit-msg-error">{{ form.attachment.errors }}</div>
                 {% endif %}
             </div>
             
@@ -90,8 +118,6 @@
             </div>
         </div>
     </div>
-</div>
-
 </div>
 
 <script>

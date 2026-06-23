@@ -13,7 +13,22 @@ def c_login_required(view_func):
         return view_func(request, *args, **kwargs)
     return wrapper
 
-def author_required(function=None):
-    def check(user):
-        return user.is_authenticated and (user.is_author or user.is_superuser)
-    return user_passes_test(check, login_url='accounts:login')(function)
+def author_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if request.user.is_authenticated and (request.user.is_author or request.user.is_superuser):
+            return view_func(request, *args, **kwargs)
+        else:
+            messages.error(request, 'You do not have permission to access this page.')
+            return redirect('accounts:dashboard') # Redirect to their normal dashboard
+    return wrapper
+
+def admin_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_superuser:
+            return view_func(request, *args, **kwargs)
+        else:
+            messages.error(request, 'Admin access required.')
+            return redirect('accounts:login')
+    return wrapper

@@ -15,7 +15,8 @@
     <div class="add-message-card">
         <h2 class="section-title">Add a New Message</h2>
         
-        <form class="add-message-form" method="POST" action="{% url 'accounts:add_message' %}">
+        <!-- IMPORTANT: Add enctype="multipart/form-data" -->
+        <form class="add-message-form" method="POST" action="{% url 'accounts:add_message' %}" enctype="multipart/form-data">
             {% csrf_token %}
             
             <!-- Subject and Receiver -->
@@ -50,6 +51,16 @@
                 {{form.message| attr:"name=message"| attr:"placeholder=Write your message here..."}}
                 {% if forms.errors %}
                     <div>{{form.message.errors}}</div>
+                {% endif %}
+            </div>
+            
+            <!-- NEW: Attachment Field -->
+            <div class="form-field full-width">
+                <label for="{{form.attachment.id_for_label}}">Attachment <span class="optional">(Optional)</span></label>
+                {{form.attachment}}
+                <div class="help-text">Upload PDF, DOC, TXT, or images. Max size: 10MB</div>
+                {% if form.attachment.errors %}
+                    <div class="error-message">{{form.attachment.errors}}</div>
                 {% endif %}
             </div>
             
@@ -108,7 +119,6 @@
         const inactivityField = document.getElementById('inactivity-field');
         const dateInput = document.querySelector('input[type="datetime-local"]');
         
-        // Function to get current date/time in format for datetime-local input
         function getCurrentDateTime() {
             const now = new Date();
             const year = now.getFullYear();
@@ -119,26 +129,22 @@
             return `${year}-${month}-${day}T${hours}:${minutes}`;
         }
         
-        // Function to hide all option content sections
         function hideAllOptions() {
             noScheduleMessage.style.display = 'none';
             scheduledDateField.style.display = 'none';
             inactivityField.style.display = 'none';
         }
         
-        // Handle radio button changes
         radioButtons.forEach(radio => {
             radio.addEventListener('change', function() {
                 hideAllOptions();
                 
-                if (this.value === 'none') {
+                if (this.value === 'not_scheduled') {
                     noScheduleMessage.style.display = 'block';
                 } else if (this.value === 'scheduled') {
                     scheduledDateField.style.display = 'block';
-                    // Pre-fill with current date/time
                     if (dateInput && !dateInput.value) {
                         dateInput.value = getCurrentDateTime();
-                        // Set minimum to current time
                         dateInput.min = getCurrentDateTime();
                     }
                 } else if (this.value === 'inactivity') {
@@ -147,7 +153,6 @@
             });
         });
         
-        // Validate date input
         if (dateInput) {
             dateInput.addEventListener('change', function() {
                 const selectedDate = new Date(this.value);

@@ -28,6 +28,10 @@ class Letter(models.Model):
     receiver= models.EmailField(null=False)
     subject= models.CharField(max_length=255, null=False)
     message= models.TextField(null=False)
+    attachment = models.FileField(
+        upload_to='message_attachments/%Y/%m/%d/',
+        blank=True,null=True,
+        help_text='Optional file attachment (PDF, DOC, images, etc.)')
     created_date= models.DateTimeField(auto_now_add=True, null=False)
     scheduled_date= models.DateTimeField(blank=True, null=True)
     sent_date= models.DateTimeField(blank=True, null=True)

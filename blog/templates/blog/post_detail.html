@@ -1,0 +1,129 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block title %}{{ post.title }} | Afterword Blog{% endblock %}
+
+{% block global_extra_css %}
+<link rel="stylesheet" href="{% static 'blog/css/post_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<article class="post-detail-page">
+    <div class="post-container">
+        
+        <!-- Main Content -->
+        <div class="post-main">
+            
+            <!-- Post Header -->
+            <header class="post-header">
+                <div class="post-meta-top">
+                    <span class="post-category">Published</span>
+                    <time datetime="{{ post.publish_date|date:'Y-m-d' }}">
+                        {{ post.publish_date|date:"F d, Y" }}
+                    </time>
+                </div>
+                
+                <h1 class="post-title">{{ post.title }}</h1>
+                
+                <div class="post-author-info">
+                    <div class="author-avatar">
+                        <span>👤</span>
+                    </div>
+                    <div class="author-details">
+                        <span class="author-name">{{ post.author.email }}</span>
+                        <span class="author-role">Author</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Featured Image -->
+            {% if post.img %}
+            <div class="post-featured-image">
+                <img src="{{ post.img.url }}" alt="{{ post.title }}" class="featured-img">
+            </div>
+            {% endif %}
+            
+            <!-- Post Stats -->
+            <div class="post-stats-bar">
+                <div class="stat-item">
+                    <span class="stat-icon">👁️</span>
+                    <span class="stat-value">{{ post.views }} views</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">📅</span>
+                    <span class="stat-value">{{ post.created_date|date:"M d, Y" }}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">⏱️</span>
+                    <span class="stat-value">{% widthratio post.content|length 200 1 %} min read</span>
+                </div>
+            </div>
+            
+            <!-- Post Content -->
+            <div class="post-content">
+                {{ post.content|linebreaks }}
+            </div>
+            
+            <!-- Post Footer -->
+            <div class="post-footer">
+                <div class="share-section">
+                    <h3>Share this article</h3>
+                    <div class="share-buttons">
+                        <a href="https://twitter.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri }}" 
+                           class="share-btn twitter" target="_blank">
+                            Twitter
+                        </a>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                           class="share-btn facebook" target="_blank">
+                            Facebook
+                        </a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ post.title|urlencode }}" 
+                           class="share-btn linkedin" target="_blank">
+                            LinkedIn
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="back-to-posts">
+                    <a href="{% url 'blog:home' %}" class="back-link">← Back to all posts</a>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Sidebar -->
+        <aside class="post-sidebar">
+            
+            <!-- Author Card -->
+            <div class="sidebar-card author-card">
+                <h3>About the Author</h3>
+                <div class="author-profile">
+                    <div class="author-avatar-large">👤</div>
+                    <h4>{{ post.author.email }}</h4>
+                    <p>Published {{author_post_count}} articles</p>
+                </div>
+            </div>
+           
+            <!-- Related Posts -->
+            {% if related_posts %}
+            <div class="sidebar-card related-posts-card">
+                <h3>More from this author</h3>
+                <div class="related-posts-list">
+                    {% for related_post in related_posts %}
+                    <a href="{% url 'blog:post_detail' pid=related_post.id %}" class="related-post-item">
+                        <h5>{{ related_post.title|truncatechars:50 }}</h5>
+                        <span>{{ related_post.publish_date|date:"M d, Y" }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+        </aside>
+        
+    </div>
+</article>
+
+{% endblock %}

@@ -28,3 +28,8 @@ class Post(models.Model):
         blank=True,
         null=True,
         verbose_name='Post Image')
+    views = models.PositiveIntegerField(default=0)
+
+    def increment_views(self):
+        self.views += 1
+        self.save(update_fields=['views'])

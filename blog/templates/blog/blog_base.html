@@ -1,0 +1,60 @@
+{% load static %}
+
+{% include 'pages/messages.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Blog | Afterword{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{% static 'blog/css/blog_base.css' %}">
+    <link rel="stylesheet" href="{% static 'pages/css/messages.css' %}">
+
+    {% block global_extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="blog-wrapper">
+        
+        <!-- Blog Header/Navigation -->
+        <header class="blog-header">
+            <div class="blog-header-content">
+                <div class="blog-logo">
+                    <a href="{% url 'blog:home' %}">
+                        <h2>Afterword Blog</h2>
+                    </a>
+                </div>
+                
+                <nav class="blog-nav">
+                    <a href="{% url 'blog:home' %}" class="nav-link">Home</a>
+                    <a href="{% url 'blog:author_dashboard' %}" class="nav-link">My Posts</a>
+                    <a href="{% url 'blog:write_post' %}" class="nav-link">Write</a>
+                </nav>
+            </div>
+        </header>
+        
+        <!-- Main Blog Content Area -->
+        <main class="blog-main">
+            <div class="blog-container">
+                {% block dash_content %}
+                {% endblock %}
+            </div>
+        </main>
+        
+        <!-- Blog Footer -->
+        <footer class="blog-footer">
+            <div class="blog-footer-content">
+                <p>&copy; {% now "Y" %} Afterword Blog. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="{% url 'pages:home' %}">Back to Main Site</a>
+                    <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+                </div>
+            </div>
+        </footer>
+        
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
