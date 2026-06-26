@@ -38,7 +38,14 @@ class EditEmailForm(forms.ModelForm):
         widgets={
             'email':forms.EmailInput(attrs={'class':'form-control'})
         }
-
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        user = self.instance
+        if user.email == email:
+            return email
+        if C_User.objects.filter(email=email, is_active=True).exists():
+            raise forms.ValidationError("This email is already registered to another account.")            
+        return email
   
 class C_PasswordResetForm(forms.Form):
     new_password=forms.CharField(

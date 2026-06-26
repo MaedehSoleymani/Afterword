@@ -18,7 +18,7 @@ from django.utils import timezone
 from django.utils.html import strip_tags
 from datetime import timedelta
 from django.contrib.sessions.models import Session
-
+from . import email_views
 #----------------------------------------------------------
 #views 
 def signup(request):
@@ -118,28 +118,26 @@ def add_message(request):
             letter=form.save(commit=False)
             letter.author=user
             send_option=form.cleaned_data.get("send_option")
-            if send_option == 'not_scheduled':
-                letter.status = Letter.STATUS_NOT_SCHEDULED
+            if send_option=='not_scheduled':
+                letter.status=Letter.STATUS_NOT_SCHEDULED
                 letter.scheduled_date = None
-            elif send_option == 'scheduled':
-                letter.status = Letter.STATUS_SCHEDULED
-            elif send_option == 'inactivity':
-                letter.status = Letter.STATUS_INACTIVITY_TRIGGERED
+            elif send_option=='scheduled':
+                letter.status=Letter.STATUS_SCHEDULED
+            elif send_option=='inactivity':
+                letter.status=Letter.STATUS_INACTIVITY_TRIGGERED
                 letter.send_on_inactivity=True
                 letter.inactivity_days=form.cleaned_data.get('inactivity_days')
                 letter.scheduled_date=None
             else:
                 messages.error(request,'The information you entered appears to be invalid. Please check the highlighted fields and correct them.')
-            
+            now=timezone.now()+ timedelta(hours=3, minutes=30)
+            print(f"now is {now} and the time is {letter.scheduled_date}")
             letter.save()
             messages.success(request,'Your Message was saved successfully.')
-
-            #create contact from Letter.email
             Contact.objects.get_or_create(
                 user=user,
                 email=letter.receiver,
-                defaults={'name': ''}
-            )
+                defaults={'name': ''})
             return redirect('accounts:my_messages')
         else:
             messages.error(request,'The information you entered appears to be invalid. Please check the highlighted fields and correct them.')
@@ -266,25 +264,30 @@ def account_settings(request):
     user=request.user
     if request.method=='POST':
         action=request.POST.get('action')
-        email_form=EditemailForm(request.POST, instance=user)
+        email_form=EditEmailForm(request.POST, instance=user)
         if action=='change_email':
+            print("change email activating")
             if email_form.is_valid():
+                print("email form valid")
                 new_email = email_form.cleaned_data['email']
-                if User.objects.filter(email=new_email).exists():
-                    messages.error(request, 'This email is already registered to another account.')
-                    return redirect('accounts:account_settings')                
+                print("new email recieved from form")
+                C_User.objects.filter(email=new_email, is_active=False).delete()  
                 UserToken.objects.filter(user=user, token_type='verify_email', is_used=False).delete()            
-                user_token= UserToken.objects.create(
-                user=user,
+                user_token= UserToken.objects.create(user=user,
                 token_type='verify_email',
                 pending_email=new_email)
+                print("token created")
                 result=send_confirm_email(request, new_email, user_token, user)
+                print("email sent")
                 if result:
                     messages.success(request, f'Verification email sent to {new_email}. Please check your inbox and spam folders.')
                 else:
                     messages.error(request, f'Failed to send verification email to {new_email}.')
             else:
-                email_form=EditEmailForm()
+                print("Form errors:", email_form.errors)
+                for field, errors in email_form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{field}: {error}")
 
                     
         elif action=='change_password':
@@ -322,19 +325,9 @@ def account_settings(request):
 def send_confirm_email(request, pending_email, token, user):    
     confirm_email_url= request.build_absolute_uri(
     reverse('accounts:receive_confirm_email', kwargs={'token': token.token}))
-    print("before render to string send_confirm_email")
-    html_content = render_to_string('emails/confirm_email.html', {
-        'confirm_email_url': confirm_email_url,
-        'year': timezone.now().year,})
-    text_content = strip_tags(html_content)
-    msg = EmailMultiAlternatives(
-        subject='Afterword - Confirm Your Email',
-        body=text_content,
-        from_email=DEFAULT_FROM_EMAIL,
-        to=[pending_email])
-    msg.attach_alternative(html_content, "text/html")
+    email=user.email
     try:
-        msg.send()
+        email_views.send_confirm_email(confirm_email_url,email)
         print("send_confirm_email done")
         return True
     except Exception as e:
@@ -359,7 +352,7 @@ def receive_confirm_email(request,token):
 def forgot_password(request):
     if request.method == 'POST':
         email = request.POST.get('email')
-        user = User.objects.filter(email=email).first()
+        user = C_User.objects.filter(email=email).first()
         if not user:
             messages.error(request, 'No account found with this email address.')
             return redirect('accounts:forgot_password')       
@@ -378,28 +371,11 @@ def forgot_password(request):
 
     
 def send_reset_password(request, token, user):
-    reset_url= request.build_absolute_uri(
+    reset_url=request.build_absolute_uri(
     reverse('accounts:receive_reset_password', kwargs={'token': token}))
-
-    subject='Afterword - reset your password'
-    html_content=render_to_string('emails/reset_pass_email.html', {
-        'reset_url': reset_url,
-        'year': timezone.now().year
-    })
-    text_content=strip_tags(html_content)    
-    recipient=[user.email]
-    from_email=DEFAULT_FROM_EMAIL
-
-    msg=EmailMultiAlternatives(
-        subject=subject,
-        body=text_content,
-        from_email=from_email,
-        to=recipient
-    )
-    msg.attach_alternative(html_content,"text/html")
-
+    email=user.email
     try:
-        msg.send()
+        email_views.send_reset_password(reset_url,email)
         print("pass change email was successfully sent")
         return True
     except Exception as e:
@@ -440,57 +416,18 @@ def receive_reset_password(request, token):
 @c_login_required
 def send_message(request, lid):
     letter=get_object_or_404(Letter,author=request.user,id=lid)
-
-    html_content=render_to_string('emails/send_message_email.html',
-    {
-        'subject': letter.subject,
-        'message_content': letter.message,
-        'sent_at': timezone.now(),
-        'year': timezone.now().year
-    })
-
-    text_content = strip_tags(html_content)
-
-    msg = EmailMultiAlternatives(
-        subject=letter.subject,
-        body=text_content,
-        from_email=DEFAULT_FROM_EMAIL,
-        to=[letter.receiver]
-    )
-
-    msg.attach_alternative(html_content, "text/html")
-
-    if letter.attachment:
-        try:
-            letter.attachment.open('rb')
-            file_content = letter.attachment.read()
-            file_name = letter.attachment.name.split('/')[-1]
-            import mimetypes
-            mime_type, _ = mimetypes.guess_type(file_name)
-            if not mime_type:
-                mime_type = 'application/octet-stream'
-            msg.attach(file_name, file_content, mime_type)
-            letter.attachment.close()
-
-        except Exception as e:
-            print(f"Error attaching file: {e}")
-            messages.warning(request, "Message sent but attachment failed.")
-
     try:
-        msg.send()
-        print("email sent")
+        email_views.send_message(letter)
         letter.status=Letter.STATUS_SENT
-        print("email status changed")
         letter.sent_date=timezone.now()
-        print("sent date set")
+        letter.save()
         messages.success(request, "Message sent successfully.")
     except Exception as e:
         print(f"Email send error: {e}")
         letter.status=Letter.STATUS_FAILED
+        letter.save()
         messages.error(request, "Failed to send message.")
-
     letter.save()
     print("status updated")
-
     return redirect('accounts:my_messages')
 

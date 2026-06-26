@@ -1,22 +1,7 @@
 from pathlib import Path
-from gitignore.email_config import email_host_pass, email_host_user, default_from_email
-from gitignore.secret_key import secret_key
 import os
 
-# ← MOVE THIS TO THE TOP, RIGHT AFTER IMPORTS
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret_key
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
-
-# Application definition
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -39,20 +24,12 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'accounts.middleware.UpdateLastActivityMiddleware', 
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'Afterword.urls'
-
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static',]  # ← Now BASE_DIR is defined
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Media files configuration
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TEMPLATES = [
     {
@@ -71,7 +48,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Afterword.wsgi.application'
 
-# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -79,7 +55,6 @@ DATABASES = {
     }
 }
 
-# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -101,20 +76,26 @@ AUTHENTICATION_BACKENDS = [
     'accounts.backends.EmailBackend',
 ]
 
-# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Session settings
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-# Sending Email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = email_host_user
-EMAIL_HOST_PASSWORD = email_host_pass
-DEFAULT_FROM_EMAIL = default_from_email
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Celery Configuration
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60

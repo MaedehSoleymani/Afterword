@@ -42,7 +42,6 @@ class Letter(models.Model):
         null=False)
     send_on_inactivity = models.BooleanField(default=False, null=False, blank=False)
     inactivity_days = models.IntegerField(default=7, help_text="Days of inactivity before sending", null=True, blank=True)
-    last_checked = models.DateTimeField(null=True, blank=True)
     inactivity_triggered_at = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):

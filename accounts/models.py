@@ -35,7 +35,8 @@ class C_User(AbstractBaseUser, PermissionsMixin):
     is_superuser=models.BooleanField(default=False, null=False, blank=False)
     is_author=models.BooleanField(default=False, null=False, blank=False)
     is_staff=models.BooleanField(default=False, null=False, blank=False)  # ← ADD THIS
-
+    last_activity=models.DateTimeField(null=True, blank=True)
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = C_UserManager()
@@ -56,7 +57,7 @@ class UserToken(models.Model):
     created_at=models.DateTimeField(auto_now_add=True, null=False)
     expires_at=models.DateTimeField(null=False)
     is_used=models.BooleanField(default=False, null=False)
-    pending_email = models.EmailField(blank=True, null=True)
+    pending_email=models.EmailField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.token:

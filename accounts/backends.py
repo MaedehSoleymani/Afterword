@@ -1,3 +1,7 @@
+#FOR DEVELOPEMENT USE ONLY
+#IF YOU DON'T KNNOW HOW TO USE CELERY YET, USE THIS BUT YOU SHOULD DEFINITELY LEARN CELERY AS WELL.
+#DON'T WORRY IT'S NOT DIFFICULT! 
+
 from django.contrib.auth.backends import BaseBackend
 from .models import C_User
 
