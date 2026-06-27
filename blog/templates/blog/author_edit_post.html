@@ -75,14 +75,12 @@
                 </div>
                 
                 
-                <!-- فیلد تاریخ انتشار (فقط برای گزینه Schedule) -->
                 <div class="form-group" id="publishDateGroup" style="display: none;">
                     <label for="{{form.publish_date.id_for_label}}">Schedule Date & Time <span class="required">*</span></label>
                     {{form.publish_date}}
                     <div class="help-text">Select a future date and time for automatic publishing</div>
                 </div>
                 
-                <!-- فیلد وضعیت مخفی (برای فرم) -->
                 <input type="hidden" name="status" id="id_status_hidden" value="draft">
                 
                 <div class="form-group">
@@ -113,25 +111,21 @@
 </main>
 
 <script>
-    // المنت‌ها
     const publishOptions = document.querySelectorAll('input[name="publish_option"]');
     const publishDateGroup = document.getElementById('publishDateGroup');
     const statusHidden = document.getElementById('id_status_hidden');
     const dateInput = document.getElementById('id_publish_date');
     
-    // تغییر وضعیت با انتخاب گزینه‌ها
     publishOptions.forEach(option => {
         option.addEventListener('change', function() {
             const value = this.value;
             
             if (value === 'draft') {
-                // پیش‌نویس
                 publishDateGroup.style.display = 'none';
                 statusHidden.value = 'draft';
                 if (dateInput) dateInput.required = false;
                 
             } else if (value === 'now') {
-                // انتشار فوری
                 publishDateGroup.style.display = 'none';
                 statusHidden.value = 'published';
                 if (dateInput) {
@@ -140,7 +134,6 @@
                 }
                 
             } else if (value === 'schedule') {
-                // برنامه‌ریزی شده
                 publishDateGroup.style.display = 'block';
                 statusHidden.value = 'published';
                 if (dateInput) dateInput.required = true;
@@ -148,7 +141,6 @@
         });
     });
     
-    // پیش‌نمایش تصویر
     const imgInput = document.getElementById('id_img');
     const imagePreview = document.getElementById('imagePreview');
     const previewImg = document.getElementById('previewImg');
@@ -170,7 +162,6 @@
         });
     }
     
-    // تنظیم min تاریخ به الان (فقط زمان‌های آینده قابل انتخاب)
     if (dateInput) {
         const now = new Date();
         const year = now.getFullYear();
@@ -181,7 +172,6 @@
         
         dateInput.min = `${year}-${month}-${day}T${hours}:${minutes}`;
         
-        // اعتبارسنجی سمت کلاینت
         dateInput.addEventListener('change', function() {
             const selectedDate = new Date(this.value);
             if (selectedDate < now) {

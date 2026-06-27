@@ -13,10 +13,8 @@
 <article class="post-detail-page">
     <div class="post-container">
         
-        <!-- Main Content -->
         <div class="post-main">
             
-            <!-- Post Header -->
             <header class="post-header">
                 <div class="post-meta-top">
                     <span class="post-category">Published</span>
@@ -38,14 +36,12 @@
                 </div>
             </header>
             
-            <!-- Featured Image -->
             {% if post.img %}
             <div class="post-featured-image">
                 <img src="{{ post.img.url }}" alt="{{ post.title }}" class="featured-img">
             </div>
             {% endif %}
             
-            <!-- Post Stats -->
             <div class="post-stats-bar">
                 <div class="stat-item">
                     <span class="stat-icon">👁️</span>
@@ -61,12 +57,10 @@
                 </div>
             </div>
             
-            <!-- Post Content -->
             <div class="post-content">
                 {{ post.content|linebreaks }}
             </div>
             
-            <!-- Post Footer -->
             <div class="post-footer">
                 <div class="share-section">
                     <h3>Share this article</h3>
@@ -93,10 +87,8 @@
             
         </div>
         
-        <!-- Sidebar -->
         <aside class="post-sidebar">
             
-            <!-- Author Card -->
             <div class="sidebar-card author-card">
                 <h3>About the Author</h3>
                 <div class="author-profile">
@@ -106,7 +98,6 @@
                 </div>
             </div>
            
-            <!-- Related Posts -->
             {% if related_posts %}
             <div class="sidebar-card related-posts-card">
                 <h3>More from this author</h3>

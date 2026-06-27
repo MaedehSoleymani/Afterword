@@ -12,16 +12,22 @@
 
 {% block dash_content %}
 <div class="settings-container">
-    <!-- Profile Section -->
     <div class="settings-section">
         <div class="settings-section-header">
             <h3 class="settings-section-title">Profile Information</h3>
+            <button type="button" class="settings-edit-btn" id="editProfileBtn">Edit Profile</button>
         </div>
         
-        <div class="settings-info-grid">
+        <div class="settings-info-grid" id="profileDisplay">
             <div class="settings-info-item">
-                <span class="settings-info-label">Username:</span>
-                <span class="settings-info-value" id="usernameValue">{{ user.username }}</span>
+                <span class="settings-info-label">Your Name:</span>
+                <span class="settings-info-value" id="usernameValue">
+                    {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                        Not provided
+                    {% endif %}
+                </span>
             
                 <span class="settings-info-label">Email:</span>
                 <span class="settings-info-value" id="emailValue">{{ user.email|default:"Not provided" }}</span>
@@ -35,11 +41,31 @@
                 <span class="settings-info-value">{{ user.last_login|date:"F j, Y - H:i"|default:"Never" }}</span>
             </div>
         </div>
+        
+        <form method="POST" action="{% url 'accounts:account_settings' %}" class="settings-edit-form" id="editProfileForm" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="change_name">
+            
+            <div class="settings-form-row">
+                <div class="settings-form-group">
+                    <label for="id_first_name">First Name</label>
+                    {{ name_form.first_name|add_class:"settings-input" }}
+                </div>
+                
+                <div class="settings-form-group">
+                    <label for="id_last_name">Last Name</label>
+                    {{ name_form.last_name|add_class:"settings-input" }}
+                </div>
+            </div>
+            
+            <div class="settings-form-actions">
+                <button type="submit" class="settings-save-btn">Save Changes</button>
+                <button type="button" class="settings-cancel-btn" id="cancelEditBtn">Cancel</button>
+            </div>
+        </form>
     </div>
 
-    <!-- Side by Side: Email & Password -->
     <div class="settings-split-row">
-        <!-- Email Card -->
         <div class="settings-half">
             <div class="settings-section settings-section-centered">
                 <div class="settings-section-header settings-header-centered">
@@ -67,7 +93,6 @@
             </div>
         </div>
         
-        <!-- Change Password Section -->
         <div class="settings-half">
             <div class="settings-section settings-section-centered">
                 <div class="settings-section-header settings-header-centered">
@@ -83,7 +108,6 @@
         </div>
     </div>
 
-    <!-- Danger Zone -->
     <div class="settings-section settings-danger-section">
         <div class="settings-section-header">
             <h3 class="settings-section-title settings-danger-title">Danger Zone</h3>
@@ -95,7 +119,6 @@
         </div>
     </div>
 
-    <!-- Delete Account Modal -->
     <div id="deleteModal" class="settings-modal">
         <div class="settings-modal-content">
             <div class="settings-modal-header">
@@ -120,16 +143,15 @@
 </div>
 
 <script>
-    // Edit Profile Toggle
     const editBtn = document.getElementById('editProfileBtn');
     const editForm = document.getElementById('editProfileForm');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
-    const usernameValue = document.getElementById('usernameValue');
-    const emailValue = document.getElementById('emailValue');
+    const profileDisplay = document.getElementById('profileDisplay');
 
     if (editBtn) {
         editBtn.onclick = function() {
             editForm.style.display = 'block';
+            profileDisplay.style.display = 'none';
             editBtn.style.display = 'none';
         }
     }
@@ -137,11 +159,11 @@
     if (cancelEditBtn) {
         cancelEditBtn.onclick = function() {
             editForm.style.display = 'none';
+            profileDisplay.style.display = 'block';
             editBtn.style.display = 'block';
         }
     }
 
-    // Delete Modal
     const modal = document.getElementById('deleteModal');
     const deleteBtn = document.getElementById('deleteAccountBtn');
     const closeBtn = document.querySelector('.settings-modal-close');

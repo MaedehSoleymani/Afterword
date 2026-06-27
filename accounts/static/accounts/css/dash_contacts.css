@@ -1,52 +1,77 @@
-/* =========================
-   My Registered Emails Page - اختصاصی
-   (contact namespace)
-========================= */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 .contact-container {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(139, 126, 116, 0.1);
     margin-bottom: 30px;
+    font-family: 'Inter', sans-serif;
 }
 
 .contact-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     flex-wrap: wrap;
     gap: 15px;
 }
 
 .contact-title {
-    font-size: 22px;
-    color: #0f172a;
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #2C241C;
     font-weight: 600;
-    border-left: 4px solid #1e3a8a;
-    padding-left: 15px;
+    border-left: 4px solid #8B7E74;
+    padding-left: 18px;
+    letter-spacing: -0.3px;
 }
 
 .contact-add-btn {
-    background-color: #1e3a8a;
+    background: linear-gradient(135deg, #6B5D52 0%, #8B7E74 100%);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 12px 28px;
+    border-radius: 50px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 6px 20px rgba(107, 93, 82, 0.25);
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-add-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.contact-add-btn:hover::before {
+    left: 100%;
 }
 
 .contact-add-btn:hover {
-    background-color: #172d6a;
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #5A4D43 0%, #7A6E64 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(107, 93, 82, 0.35);
 }
 
 .contact-table-wrapper {
     overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid rgba(139, 126, 116, 0.1);
 }
 
 .contact-table {
@@ -55,49 +80,58 @@
 }
 
 .contact-table thead tr {
-    background-color: #f1f5f9;
-    border-bottom: 2px solid #e2e8f0;
+    background: rgba(245, 240, 232, 0.6);
+    border-bottom: 2px solid rgba(139, 126, 116, 0.15);
 }
 
 .contact-table th {
-    padding: 15px;
+    padding: 18px 20px;
     text-align: left;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    color: #1e293b;
+    color: #2C241C;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .contact-table tbody tr {
-    border-bottom: 1px solid #e5e7eb;
-    transition: background-color 0.2s ease;
+    border-bottom: 1px solid rgba(139, 126, 116, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.contact-table tbody tr:last-child {
+    border-bottom: none;
 }
 
 .contact-table tbody tr:hover {
-    background-color: #f8fafc;
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .contact-cell {
-    padding: 15px;
+    padding: 18px 20px;
     font-size: 14px;
-    color: #334155;
+    color: #3D3429;
+    font-weight: 400;
 }
 
 .contact-status {
     display: inline-block;
-    padding: 5px 12px;
-    border-radius: 20px;
+    padding: 6px 14px;
+    border-radius: 50px;
     font-size: 12px;
     font-weight: 600;
 }
 
 .contact-status-verified {
-    background-color: #d1fae5;
-    color: #059669;
+    background-color: #D1FAE5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
 }
 
 .contact-status-pending {
-    background-color: #fef3c7;
-    color: #d97706;
+    background-color: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
 }
 
 .contact-actions {
@@ -106,35 +140,44 @@
 }
 
 .contact-action-btn {
-    padding: 5px 12px;
-    border-radius: 6px;
+    padding: 8px 18px;
+    border-radius: 50px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(139, 126, 116, 0.2);
+    background: rgba(255, 255, 255, 0.6);
+    color: #3D3429;
+    font-family: 'Inter', sans-serif;
+}
+
+.contact-action-btn:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #8B7E74;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 126, 116, 0.15);
 }
 
 .contact-delete-btn {
-    background-color: #fee2e2;
-    color: #dc2626;
+    background-color: rgba(254, 242, 242, 0.7);
+    border-color: rgba(254, 202, 202, 0.5);
+    color: #DC2626;
 }
 
 .contact-delete-btn:hover {
-    background-color: #fecaca;
-    transform: translateY(-1px);
+    background-color: #FEE2E2;
+    border-color: #FCA5A5;
+    color: #B91C1C;
 }
 
 .contact-empty {
     text-align: center;
-    padding: 50px;
-    color: #94a3b8;
-    font-size: 14px;
+    padding: 60px;
+    color: #8B7E74;
+    font-size: 15px;
+    font-weight: 300;
 }
-
-/* =========================
-   Modal Styles
-========================= */
 
 .contact-modal {
     display: none;
@@ -144,17 +187,22 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(61, 52, 41, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .contact-modal-content {
-    background-color: #ffffff;
-    margin: 15% auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    margin: 10% auto;
     width: 90%;
     max-width: 500px;
-    border-radius: 12px;
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
-    animation: contactSlideIn 0.3s ease;
+    border-radius: 24px;
+    box-shadow: 0 25px 60px rgba(61, 52, 41, 0.25);
+    animation: contactSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes contactSlideIn {
@@ -172,81 +220,163 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 25px;
-    border-bottom: 1px solid #e5e7eb;
+    padding: 25px 30px;
+    border-bottom: 1px solid rgba(139, 126, 116, 0.15);
 }
 
 .contact-modal-header h3 {
-    font-size: 20px;
-    color: #0f172a;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: #2C241C;
     font-weight: 600;
+    letter-spacing: -0.3px;
 }
 
 .contact-modal-close {
     font-size: 28px;
     font-weight: bold;
-    color: #94a3b8;
+    color: #8B7E74;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease;
+    line-height: 1;
 }
 
 .contact-modal-close:hover {
-    color: #dc2626;
+    color: #DC2626;
 }
 
 .contact-modal-body {
-    padding: 25px;
+    padding: 30px;
 }
 
 .contact-form-group {
-    margin-bottom: 20px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
 }
 
 .contact-form-group label {
     display: block;
-    font-size: 14px;
-    font-weight: 500;
-    color: #1e293b;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2C241C;
     margin-bottom: 8px;
+    letter-spacing: 0.3px;
 }
 
 .contact-form-group input {
     width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    padding: 14px 18px;
+    border: 2px solid rgba(139, 126, 116, 0.15);
+    border-radius: 12px;
     font-size: 14px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+    color: #3D3429;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+
+.contact-form-group input::placeholder {
+    color: #8B7E74;
+    font-weight: 300;
 }
 
 .contact-form-group input:focus {
     outline: none;
-    border-color: #1e3a8a;
-    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+    border-color: #8B7E74;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(139, 126, 116, 0.1);
 }
 
 .contact-submit-btn {
     width: 100%;
-    background-color: #1e3a8a;
+    background: linear-gradient(135deg, #6B5D52 0%, #8B7E74 100%);
     color: white;
     border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 14px;
+    padding: 16px;
+    border-radius: 50px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 24px rgba(107, 93, 82, 0.3);
+    position: relative;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.contact-submit-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.contact-submit-btn:hover::before {
+    left: 100%;
 }
 
 .contact-submit-btn:hover {
-    background-color: #172d6a;
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #5A4D43 0%, #7A6E64 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(107, 93, 82, 0.4);
 }
 
-/* Responsive */
+.contact-edit-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid rgba(139, 126, 116, 0.15);
+    border-radius: 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+    color: #3D3429;
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+}
+
+.contact-edit-input::placeholder {
+    color: #8B7E74;
+    font-weight: 300;
+}
+
+.contact-edit-input:focus {
+    outline: none;
+    border-color: #8B7E74;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(139, 126, 116, 0.1);
+}
+
+.contact-action-btn[onclick] {
+    background: linear-gradient(135deg, #6B5D52 0%, #8B7E74 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.contact-action-btn[onclick]:hover {
+    background: linear-gradient(135deg, #5A4D43 0%, #7A6E64 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(107, 93, 82, 0.25);
+}
+
+.error {
+    color: #DC2626;
+    font-size: 12px;
+    margin-top: 6px;
+    font-weight: 400;
+}
+
 @media (max-width: 768px) {
     .contact-container {
-        padding: 20px;
+        padding: 25px 20px;
     }
     
     .contact-header {
@@ -255,58 +385,31 @@
     }
     
     .contact-title {
-        font-size: 18px;
+        font-size: 22px;
     }
     
     .contact-table th,
     .contact-table td {
-        padding: 10px;
-        font-size: 12px;
+        padding: 12px 14px;
+        font-size: 13px;
     }
     
     .contact-status {
-        padding: 3px 8px;
-        font-size: 10px;
+        padding: 4px 10px;
+        font-size: 11px;
     }
     
     .contact-modal-content {
-        margin: 30% auto;
+        margin: 20% auto;
+        width: 95%;
     }
-}
-
-/* =========================
-   Additional Styles for Edit Modal
-========================= */
-
-.contact-edit-input {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
-
-.contact-edit-input:focus {
-    outline: none;
-    border-color: #1e3a8a;
-    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
-}
-
-/* اطمینان از اینکه دکمه Edit استایل درستی دارد */
-.contact-action-btn[onclick] {
-    background-color: #e0e7ff;
-    color: #1e3a8a;
-}
-
-.contact-action-btn[onclick]:hover {
-    background-color: #c7d2fe;
-    transform: translateY(-1px);
-}
-
-/* استایل برای خطاها */
-.error {
-    color: #dc2626;
-    font-size: 12px;
-    margin-top: 5px;
+    
+    .contact-modal-body {
+        padding: 20px;
+    }
+    
+    .contact-action-btn {
+        padding: 6px 14px;
+        font-size: 11px;
+    }
 }

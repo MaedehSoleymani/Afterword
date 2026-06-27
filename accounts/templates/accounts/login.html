@@ -41,10 +41,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="{{form.password.id_for_label}}'">Password</label>
-                        {{form.password|add_class:"pass"|attr:"placeholder:Enter your password"|attr:"name:password"}}
+                        <label for="{{ form.password.id_for_label }}">Password</label>
+                        {{ form.password|add_class:"auth-input"|attr:"placeholder:Enter your password" }}
                         {% if form.password.errors %}
-                        <div>{{form.password.errors}}</div>
+                            <div class="auth-error-message">
+                                {% for error in form.password.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     </div>
 

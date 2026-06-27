@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from accounts.models import C_User
 from outbox.forms import LetterForm, ContactForm
 from outbox.models import Letter, Contact
-from accounts.forms import EditEmailForm, SignupForm, LoginForm, C_PasswordResetForm
+from accounts.forms import EditEmailForm, SignupForm, LoginForm, C_PasswordResetForm, NameForm
 from django.core.mail import send_mail, EmailMultiAlternatives
 from Afterword.settings import DEFAULT_FROM_EMAIL
 from django.contrib.auth.decorators import login_required, permission_required
@@ -130,7 +130,7 @@ def add_message(request):
                 letter.scheduled_date=None
             else:
                 messages.error(request,'The information you entered appears to be invalid. Please check the highlighted fields and correct them.')
-            now=timezone.now()+ timedelta(hours=3, minutes=30)
+            now=timezone.now()
             print(f"now is {now} and the time is {letter.scheduled_date}")
             letter.save()
             messages.success(request,'Your Message was saved successfully.')
@@ -203,6 +203,7 @@ def edit_message(request,lid):
             messages.success(request,'Your changes have been applied successfully.')
             return redirect('accounts:my_messages')
         else:
+            print("FORM ERRORS:", form.errors)
             messages.error(request,'The information you entered appears to be invalid. Please check the highlighted fields and correct them.')
             return render(request, 'accounts/dash_edit_message.html', {'form': form, 'letter': letter, 'contacts':contacts})
     else:
@@ -262,9 +263,21 @@ def contacts(request):
 @c_login_required
 def account_settings(request):
     user=request.user
+    if not user.first_name or not user.last_name:
+        messages.warning(request,"Please submit BOTH your first and last name, otherwise the emails will be sent WITHOUT your name in them.")
     if request.method=='POST':
         action=request.POST.get('action')
         email_form=EditEmailForm(request.POST, instance=user)
+
+        if action=='change_name':
+            name_form=NameForm(request.POST,instance=user)
+            if name_form.is_valid():
+                name_form.save()
+                messages.success(request, 'Your name has been updated successfully.')
+            else:
+                messages.error(request, 'Unable to update your name. Please try again.')
+            return redirect('accounts:account_settings')
+
         if action=='change_email':
             print("change email activating")
             if email_form.is_valid():
@@ -316,9 +329,9 @@ def account_settings(request):
             return redirect('accounts:account_settings')
     else:
         email_form=EditEmailForm(instance=user)
+        name_form = NameForm(instance=user)
 
-    context = {
-    'email_form': email_form,'email_form': email_form,}
+    context = {'email_form':email_form,'name_form':name_form}
     return render(request,'accounts/dash_account_settings.html',context)
 
 

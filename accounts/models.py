@@ -36,7 +36,8 @@ class C_User(AbstractBaseUser, PermissionsMixin):
     is_author=models.BooleanField(default=False, null=False, blank=False)
     is_staff=models.BooleanField(default=False, null=False, blank=False)  # ← ADD THIS
     last_activity=models.DateTimeField(null=True, blank=True)
-    
+    first_name=models.CharField(null=True, blank=True)
+    last_name=models.CharField(null=True, blank=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = C_UserManager()

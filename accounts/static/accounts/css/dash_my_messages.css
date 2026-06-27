@@ -1,49 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 .my-msg-container {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(139, 126, 116, 0.1);
     margin-bottom: 30px;
+    font-family: 'Inter', sans-serif;
 }
 
 .my-msg-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 30px;
     flex-wrap: wrap;
     gap: 15px;
 }
 
 .my-msg-title {
-    font-size: 22px;
-    color: #0f172a;
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #2C241C;
     font-weight: 600;
-    border-left: 4px solid #1e3a8a;
-    padding-left: 15px;
+    border-left: 4px solid #8B7E74;
+    padding-left: 18px;
+    letter-spacing: -0.3px;
 }
 
 .my-msg-new-btn {
-    background-color: #1e3a8a;
+    background: linear-gradient(135deg, #6B5D52 0%, #8B7E74 100%);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    padding: 12px 28px;
+    border-radius: 50px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     display: inline-block;
+    box-shadow: 0 6px 20px rgba(107, 93, 82, 0.25);
+    letter-spacing: 0.3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.my-msg-new-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.my-msg-new-btn:hover::before {
+    left: 100%;
 }
 
 .my-msg-new-btn:hover {
-    background-color: #172d6a;
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, #5A4D43 0%, #7A6E64 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(107, 93, 82, 0.35);
 }
 
 .my-msg-table-wrapper {
     overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid rgba(139, 126, 116, 0.1);
 }
 
 .my-msg-table {
@@ -52,56 +82,66 @@
 }
 
 .my-msg-table thead tr {
-    background-color: #f1f5f9;
-    border-bottom: 2px solid #e2e8f0;
+    background: rgba(245, 240, 232, 0.6);
+    border-bottom: 2px solid rgba(139, 126, 116, 0.15);
 }
 
 .my-msg-table th {
-    padding: 15px;
+    padding: 18px 20px;
     text-align: left;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    color: #1e293b;
+    color: #2C241C;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .my-msg-table tbody tr {
-    border-bottom: 1px solid #e5e7eb;
-    transition: background-color 0.2s ease;
+    border-bottom: 1px solid rgba(139, 126, 116, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.my-msg-table tbody tr:last-child {
+    border-bottom: none;
 }
 
 .my-msg-table tbody tr:hover {
-    background-color: #f8fafc;
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .my-msg-cell {
-    padding: 15px;
+    padding: 18px 20px;
     font-size: 14px;
-    color: #334155;
+    color: #3D3429;
+    font-weight: 400;
 }
 
 .my-msg-status {
     display: inline-block;
-    padding: 5px 12px;
-    border-radius: 20px;
+    padding: 6px 14px;
+    border-radius: 50px;
     font-size: 12px;
     font-weight: 600;
 }
 
 .my-msg-status-scheduled {
-    background-color: #fef3c7;
-    color: #d97706;
+    background-color: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FDE68A;
 }
 
 .my-msg-status-sent {
-    background-color: #d1fae5;
-    color: #059669;
+    background-color: #D1FAE5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
 }
 
 .my-msg-empty {
     text-align: center;
-    padding: 50px;
-    color: #94a3b8;
-    font-size: 14px;
+    padding: 60px;
+    color: #8B7E74;
+    font-size: 15px;
+    font-weight: 300;
 }
 
 .msg-actions {
@@ -110,35 +150,61 @@
 }
 
 .msg-cell {
-    padding: 15px;
+    padding: 18px 20px;
     font-size: 14px;
-    color: #334155;
+    color: #3D3429;
 }
 
 .msg-action-btn {
-    padding: 5px 12px;
-    border-radius: 6px;
+    padding: 8px 18px;
+    border-radius: 50px;
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(139, 126, 116, 0.2);
+    background: rgba(255, 255, 255, 0.6);
+    color: #3D3429;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    font-family: 'Inter', sans-serif;
+}
+
+.msg-action-btn:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #8B7E74;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 126, 116, 0.15);
 }
 
 .msg-delete-btn {
-    background-color: #fee2e2;
-    color: #dc2626;
+    background-color: rgba(254, 242, 242, 0.7);
+    border-color: rgba(254, 202, 202, 0.5);
+    color: #DC2626;
+}
+
+.msg-delete-btn:hover {
+    background-color: #FEE2E2;
+    border-color: #FCA5A5;
+    color: #B91C1C;
 }
 
 .msg-edit-btn {
-    background-color: #172d6a;
+    background: linear-gradient(135deg, #6B5D52 0%, #8B7E74 100%);
+    border-color: transparent;
     color: white;
 }
 
-/* Responsive */
+.msg-edit-btn:hover {
+    background: linear-gradient(135deg, #5A4D43 0%, #7A6E64 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(107, 93, 82, 0.25);
+}
+
 @media (max-width: 768px) {
     .my-msg-container {
-        padding: 20px;
+        padding: 25px 20px;
     }
     
     .my-msg-header {
@@ -147,17 +213,22 @@
     }
     
     .my-msg-title {
-        font-size: 18px;
+        font-size: 22px;
     }
     
     .my-msg-table th,
     .my-msg-table td {
-        padding: 10px;
-        font-size: 12px;
+        padding: 12px 14px;
+        font-size: 13px;
     }
     
     .my-msg-status {
-        padding: 3px 8px;
-        font-size: 10px;
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+    
+    .msg-action-btn {
+        padding: 6px 14px;
+        font-size: 11px;
     }
 }

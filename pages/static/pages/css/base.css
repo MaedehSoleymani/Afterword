@@ -1,30 +1,40 @@
 /* =========================
-   Header
+   Global Fonts & Reset
 ========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background-color: #ffffff;
-    /*  */
+    background-color: #FAF7F2; /* Warm off-white background */
+    color: #3D3429;
+    line-height: 1.6;
 }
+
+/* =========================
+   Header - Glassmorphism
+========================= */
 
 header {
     position: fixed;
     width: 100%;
-    padding: 18px 60px;
+    padding: 0 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #0f172a;
-    background-color: #ffffff;
+    border-bottom: 1px solid rgba(139, 126, 116, 0.15);
+    background: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
+    backdrop-filter: blur(12px); /* Glass blur effect */
+    -webkit-backdrop-filter: blur(12px);
     z-index: 1000; 
     height: 70px;
+    transition: all 0.3s ease;
 }
 
 /* Logo */
@@ -35,17 +45,15 @@ header {
 }
 
 .logo img {
-    height: 100px;
+    height: 45px; /* Adjusted to fit the 70px header elegantly */
     width: auto;
     max-width: 100%;
     display: block;
+    transition: transform 0.3s ease;
 }
 
-/* برای موبایل */
-@media (max-width: 768px) {
-    .logo img {
-        height: 32px;
-    }
+.logo img:hover {
+    transform: scale(1.05);
 }
 
 /* Center Navigation */
@@ -56,14 +64,15 @@ header {
 
 .nav-links a {
     text-decoration: none;
-    color: #0f172a;
+    color: #3D3429; /* Warm dark brown */
     font-size: 15px;
-    transition: 0.3s ease;
+    font-weight: 500;
+    transition: color 0.3s ease;
     position: relative;
 }
 
 .nav-links a:hover {
-    color: #1e3a8a;
+    color: #6B5D52; /* Accent warm brown */
 }
 
 /* Underline animation */
@@ -72,10 +81,11 @@ header {
     position: absolute;
     width: 0;
     height: 2px;
-    background-color: #1e3a8a;
+    background-color: #8B7E74; /* Taupe accent */
     left: 0;
     bottom: -5px;
-    transition: 0.3s;
+    transition: width 0.3s ease;
+    border-radius: 2px;
 }
 
 .nav-links a:hover::after {
@@ -85,49 +95,52 @@ header {
 /* Auth Buttons */
 .auth {
     display: flex;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
 }
 
 .auth a {
     text-decoration: none;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .login {
-    padding: 8px 18px;
-    background-color: #e4e4e4;
-    color: #0f172a;
-    border-radius: 6px;
-    transition: 0.3s ease;
+    padding: 10px 22px;
+    background-color: #E8E0D5; /* Light warm beige */
+    color: #3D3429;
+    border-radius: 50px; /* Pill shape for chic look */
 }
 
 .login:hover {
-    background-color: #eeeded;
+    background-color: #D4C4B8;
+    transform: translateY(-2px);
 }
 
 .signup {
-    padding: 8px 18px;
-    background-color: #1e3a8a;
+    padding: 10px 22px;
+    background: linear-gradient(135deg, #6B5D52 0%, #8B7E74 100%); /* Warm brown gradient */
     color: #ffffff;
-    border-radius: 6px;
-    transition: 0.3s ease;
+    border-radius: 50px; /* Pill shape */
+    box-shadow: 0 4px 12px rgba(107, 93, 82, 0.25);
 }
 
 .signup:hover {
-    background-color: #2563eb;
+    background: linear-gradient(135deg, #5A4D43 0%, #7A6E64 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(107, 93, 82, 0.35);
 }
 
 /* =========================
-   Footer
+   Footer - Warm & Elegant
 ========================= */
 
 .site-footer {
     width: 100%;
-    padding: 30px 60px;
-    border-top: 1px solid #e5e7eb;
-    background-color: #ffffff;
+    padding: 40px 60px;
+    border-top: 1px solid rgba(139, 126, 116, 0.2);
+    background-color: #F5F0E8; /* Slightly darker warm beige */
 }
 
 .footer-container {
@@ -135,26 +148,75 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .footer-left {
     font-size: 14px;
-    color: #6b7280;
+    color: #6B5D52; /* Muted warm brown */
+    font-weight: 400;
+    letter-spacing: 0.3px;
 }
 
 .footer-right {
     display: flex;
-    gap: 25px;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .footer-right a {
     text-decoration: none;
     font-size: 14px;
-    color: #0f172a;
-    transition: 0.3s ease;
+    color: #3D3429;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
 }
 
 .footer-right a:hover {
-    color: #1e3a8a;
+    color: #6B5D52;
+}
+
+/* =========================
+   Responsive Design
+========================= */
+
+@media (max-width: 968px) {
+    header {
+        padding: 0 30px;
+    }
+    
+    .nav-links {
+        gap: 20px;
+    }
+    
+    .nav-links a {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 20px;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .auth {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .site-footer {
+        padding: 30px 20px;
+    }
 }

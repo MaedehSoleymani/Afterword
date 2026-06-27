@@ -54,8 +54,11 @@ def send_reset_password(reset_url, email):
 
 
 def send_message(letter):
+    user=letter.author
     html_content=render_to_string('emails/send_message_email.html',
     {
+        'first_name':user.first_name,
+        'last_name':user.last_name,
         'subject': letter.subject,
         'message_content': letter.message,
         'sent_at': timezone.now(),
@@ -95,5 +98,4 @@ def send_message(letter):
         print(f"Email send error: {e}")
         return False
 
-    letter.save()
     print("email_views status updated")

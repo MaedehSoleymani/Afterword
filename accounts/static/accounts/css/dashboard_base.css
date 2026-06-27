@@ -1,12 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 .dash-base-main * {
     box-sizing: border-box;
-    font-family: "Segoe UI", sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 .dash-base-main {
     width: 100%;
     min-height: 100vh;
-    background-color: #f8fafc;
+    background: linear-gradient(180deg, #FAF7F2 0%, #F5F0E8 100%);
     padding-top: 60px;
 }
 
@@ -16,12 +18,14 @@
 }
 
 .dash-base-sidebar {
-    width: 250px;
-    background-color: #1e3a8a;
-    color: #ffffff;
+    width: 260px;
+    background: linear-gradient(180deg, #2C241C 0%, #3D3429 100%);
+    color: #FFFFFF;
     padding: 40px 20px;
     display: flex;
     flex-direction: column;
+    border-right: 1px solid rgba(139, 126, 116, 0.2);
+    box-shadow: 4px 0 20px rgba(61, 52, 41, 0.05);
 }
 
 .dash-base-logo {
@@ -30,50 +34,58 @@
 }
 
 .dash-base-logo h2 {
-    font-weight: 600;
-    color: #ffffff;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #FFFFFF;
+    font-size: 24px;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .dash-base-nav ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .dash-base-nav ul a {
     display: block;
     text-decoration: none;
-    margin-bottom: 8px;
 }
 
 .dash-base-nav li {
-    padding: 12px 15px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
-    color: #a0c4e2;
+    padding: 14px 20px;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #D4C4B8;
     font-size: 14px;
     font-weight: 500;
     list-style: none;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* هاور روی آیتم‌های غیرفعال */
 .dash-base-nav ul a:not(.active-li) li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    transform: translateX(5px);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
-/* ✅ آیتم فعال - درست شده */
 .dash-base-nav .active-li li {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    color: #1e3a8a;
-    font-weight: 700;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #8B7E74 0%, #C9B9A8 100%);
+    color: #FFFFFF;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(139, 126, 116, 0.3);
+    border-color: transparent;
 }
 
 .dash-base-nav .active-li li:hover {
-    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-    color: #1e3a8a;
+    background: linear-gradient(135deg, #8B7E74 0%, #C9B9A8 100%);
+    color: #FFFFFF;
     transform: none;
 }
 
@@ -90,37 +102,67 @@
 }
 
 .dash-base-header h1 {
-    font-size: 28px;
-    color: #0f172a;
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: #2C241C;
+    font-weight: 700;
+    letter-spacing: -0.5px;
 }
 
 .dash-base-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 24px;
     margin-bottom: 50px;
 }
 
 .dash-base-stat-card {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(139, 126, 116, 0.08);
     text-align: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.dash-base-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #8B7E74, #C9B9A8);
+}
+
+.dash-base-stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 50px rgba(139, 126, 116, 0.15);
+    background: rgba(255, 255, 255, 0.85);
 }
 
 .dash-base-stat-card h3 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    color: #1e3a8a;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    margin-bottom: 12px;
+    color: #6B5D52;
+    font-weight: 700;
+    letter-spacing: -1px;
 }
 
 .dash-base-stat-card p {
-    font-size: 14px;
-    color: #6b7280;
+    font-size: 13px;
+    color: #8B7E74;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .dash-base-main {
         padding-top: 120px;
@@ -131,7 +173,7 @@
     }
     
     .dash-base-sidebar {
-        width: 200px;
+        width: 220px;
         padding: 20px 15px;
     }
     
@@ -141,7 +183,7 @@
     }
     
     .dash-base-nav li {
-        padding: 10px 12px;
+        padding: 12px 15px;
         font-size: 13px;
     }
 }

@@ -15,11 +15,9 @@
     <div class="add-message-card">
         <h2 class="section-title">Add a New Message</h2>
         
-        <!-- IMPORTANT: Add enctype="multipart/form-data" -->
         <form class="add-message-form" method="POST" action="{% url 'accounts:add_message' %}" enctype="multipart/form-data">
             {% csrf_token %}
             
-            <!-- Subject and Receiver -->
             <div class="form-row">
                 <div class="form-field">
                     <label for="{{form.subject.id_for_label}}">Subject</label>
@@ -45,7 +43,6 @@
                 </div>
             </div>
             
-            <!-- Message -->
             <div class="form-field full-width">
                 <label for="{{form.message.id_for_label}}">Message</label>
                 {{form.message| attr:"name=message"| attr:"placeholder=Write your message here..."}}
@@ -54,7 +51,6 @@
                 {% endif %}
             </div>
             
-            <!-- NEW: Attachment Field -->
             <div class="form-field full-width">
                 <label for="{{form.attachment.id_for_label}}">Attachment <span class="optional">(Optional)</span></label>
                 {{form.attachment}}
@@ -64,7 +60,6 @@
                 {% endif %}
             </div>
             
-            <!-- Send Options (Radio Buttons) -->
             <div class="form-field full-width">
                 <label>When should this message be sent?</label>
                 <div class="send-options">
@@ -83,20 +78,17 @@
                 </div>
             </div>
             
-            <!-- Option 1: No Scheduling Message -->
             <div class="form-field full-width option-content" id="no-schedule-message" style="display: block;">
                 <div class="info-message">
                     <p>✓ Message will be saved without scheduling. You can change this anytime in <a href="{% url 'accounts:my_messages' %}">My Messages</a>.</p>
                 </div>
             </div>
             
-            <!-- Option 2: Schedule Date/Time -->
             <div class="form-field full-width option-content" id="scheduled-date-field" style="display: none;">
                 <label for="{{form.scheduled_date.id_for_label}}">Schedule Date and Time:</label>
                 {{form.scheduled_date|attr:"name:scheduled_date"}}
             </div>
             
-            <!-- Option 3: Inactivity Days -->
             <div class="form-field full-width option-content" id="inactivity-field" style="display: none;">
                 <label for="inactivity_days">Days of inactivity before sending:</label>
                 <div class="inactivity-input-group">

@@ -1,76 +1,169 @@
 /* =========================
-   Home Page Layout
+   Global Fonts & Variables
 ========================= */
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
 .home-page {
-    padding-top: 70px;  /* ارتفاع هدر ثابت */
+    padding-top: 70px;
+    font-family: 'Inter', sans-serif;
+    color: #3D3429;
+    background-color: #FAF7F2;
 }
 
 .home-page section {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 0 60px;
+    padding: 80px 60px;
 }
 
 /* =========================
-   HERO SECTION
+   HERO SECTION - Warm Glassmorphism
 ========================= */
 
 .hero-section {
-    background: url("/static/website/images/bg2.jpg") center/contain no-repeat;
+    background: 
+        linear-gradient(135deg, 
+            rgba(139, 126, 116, 0.85) 0%, 
+            rgba(168, 152, 137, 0.75) 50%, 
+            rgba(201, 185, 168, 0.65) 100%),
+        url("/static/website/images/bg2.jpg") center/cover no-repeat;
+    background-blend-mode: overlay;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 245, 230, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 8s ease-in-out infinite;
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(212, 196, 184, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-30px) translateX(20px); }
 }
 
 .hero-overlay {
     width: 100%;
     height: 100%;
-    background-color: rgba(15, 23, 42, 0.65); /* navy overlay */
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    z-index: 2;
+    position: relative;
 }
 
 .hero-content {
-    max-width: 700px;
-    color: #ffffff;
+    max-width: 750px;
+    padding: 60px 50px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 24px;
+    box-shadow: 
+        0 20px 60px rgba(61, 52, 41, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .hero-content h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #FFFFFF;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .hero-content p {
     font-size: 18px;
-    margin-bottom: 35px;
-    line-height: 1.6;
-    color: #e5e7eb;
+    margin-bottom: 40px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 300;
+    letter-spacing: 0.3px;
 }
 
 .hero-btn {
-    padding: 12px 28px;
-    background-color: #1e3a8a;
-    color: #ffffff;
+    display: inline-block;
+    padding: 16px 40px;
+    background: linear-gradient(135deg, #6B5D52 0%, #8B7E74 100%);
+    color: #FFFFFF;
     text-decoration: none;
-    border-radius: 6px;
-    transition: 0.3s ease;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 24px rgba(107, 93, 82, 0.35);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.hero-btn:hover::before {
+    left: 100%;
 }
 
 .hero-btn:hover {
-    background-color: #2563eb;
+    background: linear-gradient(135deg, #5A4D43 0%, #7A6E64 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(107, 93, 82, 0.45);
 }
 
 /* =========================
-   HOW IT WORKS
+   HOW IT WORKS - Elegant Warm
 ========================= */
 
 .how-section {
-    background-color: #ffffff;
+    background: linear-gradient(180deg, #FAF7F2 0%, #F5F0E8 100%);
     text-align: center;
 }
 
@@ -80,68 +173,199 @@
 
 .how-section h2,
 .features-section h2 {
-    font-size: 36px;
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 600;
     margin-bottom: 20px;
-    color: #0f172a;
+    color: #2C241C;
+    letter-spacing: -0.5px;
+    position: relative;
+    display: inline-block;
+}
+
+.how-section h2::after,
+.features-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #8B7E74, #C9B9A8);
+    border-radius: 2px;
 }
 
 .section-description {
     max-width: 700px;
-    margin: 0 auto 50px auto;
+    margin: 30px auto 60px auto;
     font-size: 17px;
-    color: #6b7280;
-    line-height: 1.6;
+    color: #6B5D52;
+    line-height: 1.8;
+    font-weight: 300;
 }
 
 .steps {
     display: flex;
     justify-content: space-between;
     gap: 40px;
+    margin-top: 20px;
+}
+
+.step {
+    flex: 1;
+    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(139, 126, 116, 0.08);
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.step:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(139, 126, 116, 0.15);
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.step::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #8B7E74, #A89889);
+    border-radius: 50%;
+    opacity: 0.1;
 }
 
 .step h3 {
-    margin-bottom: 10px;
-    color: #1e3a8a;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #6B5D52;
+    letter-spacing: -0.3px;
 }
 
 .step p {
-    color: #6b7280;
+    color: #8B7E74;
+    line-height: 1.7;
+    font-size: 15px;
+    font-weight: 300;
 }
 
 /* =========================
-   FEATURES
+   FEATURES - Glassmorphism Cards
 ========================= */
 
 .features-section {
-    background-color: #f9fafb;
+    background: linear-gradient(180deg, #F5F0E8 0%, #EDE5D8 100%);
     text-align: center;
 }
 
 .features-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 40px;
-    margin-top: 50px;
+    gap: 35px;
+    margin-top: 60px;
 }
 
 .feature-card {
-    padding: 30px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    transition: 0.3s ease;
+    padding: 45px 35px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(139, 126, 116, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: linear-gradient(180deg, #8B7E74, #C9B9A8);
+    transition: height 0.4s ease;
+}
+
+.feature-card:hover::before {
+    height: 100%;
 }
 
 .feature-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 60px rgba(139, 126, 116, 0.2);
 }
 
 .feature-card h3 {
-    margin-bottom: 15px;
-    color: #1e3a8a;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #2C241C;
+    letter-spacing: -0.3px;
 }
 
 .feature-card p {
-    color: #6b7280;
-    line-height: 1.6;
+    color: #6B5D52;
+    line-height: 1.7;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+/* =========================
+   Responsive Design
+========================= */
+
+@media (max-width: 968px) {
+    .home-page section {
+        padding: 60px 30px;
+    }
+    
+    .hero-content {
+        padding: 40px 30px;
+    }
+    
+    .hero-content h1 {
+        font-size: 40px;
+    }
+    
+    .steps {
+        flex-direction: column;
+        gap: 25px;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 640px) {
+    .hero-content h1 {
+        font-size: 32px;
+    }
+    
+    .hero-content p {
+        font-size: 16px;
+    }
+    
+    .how-section h2,
+    .features-section h2 {
+        font-size: 32px;
+    }
 }

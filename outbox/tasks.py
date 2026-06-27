@@ -7,7 +7,7 @@ from accounts.email_views import send_message
 @shared_task
 def send_due_messages():
     from outbox.models import Letter
-    now = timezone.now()+ timedelta(hours=3, minutes=30)
+    now = timezone.now()
     due_messages = Letter.objects.filter(
         status=Letter.STATUS_SCHEDULED,
         scheduled_date__lte=now)

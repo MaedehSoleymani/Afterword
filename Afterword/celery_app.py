@@ -13,7 +13,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'send_due_messages': {
         'task': 'outbox.tasks.send_due_messages',
-        'schedule': 60.0,
+        'schedule': 10.0,
     },
     'check_inactive_users': {
         'task': 'outbox.tasks.check_inactive_users',

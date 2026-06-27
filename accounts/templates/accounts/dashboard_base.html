@@ -13,7 +13,6 @@
 
     <div class="dash-base-layout">
 
-        <!-- Sidebar -->
         <aside class="dash-base-sidebar">
 
             <div class="dash-base-logo">
@@ -32,13 +31,11 @@
 
         </aside>
 
-        <!-- Main Content -->
         <section class="dash-base-content">
 
             {% block dash_content %}
             {% endblock %}
 
-            <!-- Stats -->
             {% if request.resolver_match.url_name == 'dashboard' %}
             <div class="dash-base-stats">
 

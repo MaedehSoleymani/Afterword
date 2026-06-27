@@ -133,9 +133,15 @@
 
         <div class="email-body">
 
+            {% if first_name and last_name %}
             <div class="info-box">
-                📩 This message was sent to you by someone through Afterword.
+                📩 This message was sent to you by {{first_name}} {{last_name}} through Afterword.
             </div>
+            {% else %}
+            <div class="info-box">
+                📩 This message was sent to you by Anonymous user through Afterword.
+            </div>
+            {% endif %}
 
             <h3>Subject: {{ subject }}</h3>
 

@@ -62,7 +62,6 @@
     </div>
 </div>
 
-<!-- Modal for adding email -->
 <div id="emailModal" class="contact-modal">
     <div class="contact-modal-content">
         <div class="contact-modal-header">
@@ -93,7 +92,6 @@
     </div>
 </div>
 
-<!-- Modal for editing email (اضافه شده) -->
 <div id="editContactModal" class="contact-modal" style="display: none;">
     <div class="contact-modal-content">
         <div class="contact-modal-header">
@@ -120,7 +118,6 @@
 </div>
 
 <script>
-    // Modal functionality for Add Email
     const modal = document.getElementById("emailModal");
     const openBtn = document.getElementById("openEmailModal");
     const closeBtn = document.querySelector("#emailModal .contact-modal-close");
@@ -137,16 +134,13 @@
         }
     }
 
-    // Modal functionality for Edit Contact
     const editModal = document.getElementById("editContactModal");
     
     function openEditModal(id, name, email) {
-        // پر کردن فرم مودال
         document.getElementById('edit_contact_id').value = id;
         document.getElementById('edit_name').value = name === '—' ? '' : name;
         document.getElementById('edit_email').value = email;
         
-        // تغییر action فرم مودال
         const editForm = document.getElementById('editContactForm');
         editForm.action = "{% url 'accounts:contacts' %}";
         
@@ -158,7 +152,6 @@
         document.getElementById('editContactForm').reset();
     }
     
-    // بستن با کلیک روی پس‌زمینه
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
