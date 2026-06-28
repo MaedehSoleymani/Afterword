@@ -19,6 +19,8 @@ from django.utils.html import strip_tags
 from datetime import timedelta
 from django.contrib.sessions.models import Session
 from . import email_views
+from outbox.tasks import send_confirm_email_task, send_reset_password_task, send_message_task
+
 #----------------------------------------------------------
 #views 
 def signup(request):
@@ -268,6 +270,7 @@ def account_settings(request):
     if request.method=='POST':
         action=request.POST.get('action')
         email_form=EditEmailForm(request.POST, instance=user)
+        name_form=NameForm(request.POST,instance=user)
 
         if action=='change_name':
             name_form=NameForm(request.POST,instance=user)
@@ -284,6 +287,10 @@ def account_settings(request):
                 print("email form valid")
                 new_email = email_form.cleaned_data['email']
                 print("new email recieved from form")
+                email_exist=C_User.objects.filter(email=new_email, is_active=True)
+                if email_exist:
+                    messages.error(request,'This Email is already associated with another account. please use a different email.')
+                    return redirect ('accounts:account_settings')
                 C_User.objects.filter(email=new_email, is_active=False).delete()  
                 UserToken.objects.filter(user=user, token_type='verify_email', is_used=False).delete()            
                 user_token= UserToken.objects.create(user=user,
@@ -301,6 +308,7 @@ def account_settings(request):
                 for field, errors in email_form.errors.items():
                     for error in errors:
                         messages.error(request, f"{field}: {error}")
+            return redirect('accounts:account_settings')
 
                     
         elif action=='change_password':
@@ -317,7 +325,7 @@ def account_settings(request):
             except Exception as e:
                 messages.error(request,'Something went wrong. please try again.')
                 print(f"{e}")
-                return redirect('accounts:account_settings')
+            return redirect('accounts:account_settings')
             
         elif action=='delete_account':
              logout_auth(request)
@@ -340,7 +348,7 @@ def send_confirm_email(request, pending_email, token, user):
     reverse('accounts:receive_confirm_email', kwargs={'token': token.token}))
     email=user.email
     try:
-        email_views.send_confirm_email(confirm_email_url,email)
+        send_confirm_email_task.delay(confirm_email_url,email)
         print("send_confirm_email done")
         return True
     except Exception as e:
@@ -388,7 +396,7 @@ def send_reset_password(request, token, user):
     reverse('accounts:receive_reset_password', kwargs={'token': token}))
     email=user.email
     try:
-        email_views.send_reset_password(reset_url,email)
+        send_reset_password_task.delay(reset_url,email)
         print("pass change email was successfully sent")
         return True
     except Exception as e:
@@ -430,7 +438,7 @@ def receive_reset_password(request, token):
 def send_message(request, lid):
     letter=get_object_or_404(Letter,author=request.user,id=lid)
     try:
-        email_views.send_message(letter)
+        send_message_task.delay(letter)
         letter.status=Letter.STATUS_SENT
         letter.sent_date=timezone.now()
         letter.save()
