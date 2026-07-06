@@ -24,3 +24,18 @@ DEFAULT_FROM_EMAIL = default_from_email
 #Celery Configuration
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+
+# Database - SQLite
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db' / 'db.sqlite3',
+    }
+}
+
+# Celery Configuration (Redis)
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+
+# Debug
+DEBUG = True

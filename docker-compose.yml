@@ -1,0 +1,49 @@
+services:
+  # Redis (برای Celery)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # Django App
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - sqlite_data:/app/db
+      - media_data:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    environment:
+      - DEBUG=1
+
+  # Celery Worker
+  celery-worker:
+    build: .
+    command: celery -A Afterword worker --loglevel=info
+    volumes:
+      - .:/app
+      - sqlite_data:/app/db
+      - media_data:/app/media
+    depends_on:
+      - redis
+
+  # Celery Beat (Scheduler)
+  celery-beat:
+    build: .
+    command: celery -A Afterword beat --loglevel=info
+    volumes:
+      - .:/app
+      - sqlite_data:/app/db
+    depends_on:
+      - redis
+
+volumes:
+  redis_data:
+  sqlite_data:
+  media_data:

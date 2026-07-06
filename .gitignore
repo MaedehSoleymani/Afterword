@@ -1,24 +1,34 @@
-gitignore/
-
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
 
 # Django
 db.sqlite3
+db/
+media/
 staticfiles/
 
-# Virtual environment
-venv/
-env/
+# Docker
+celerybeat-schedule
+*.pid
 
-# VS Code
-.vscode/
-
-# Environment variables
+# Environment
 .env
+.env.local
 
-# OS files
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
-
-redis-server.exe
+Thumbs.db
