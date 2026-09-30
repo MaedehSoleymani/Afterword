@@ -168,6 +168,8 @@ def letter_actions(request,lid):
             letter.delete()
             messages.success(request,'The message has been deleted successfully.')
             return redirect('accounts:my_messages')
+        elif action=='detail':
+            return redirect('accounts:sent_message_detail',lid=lid)
         else:
             messages.error(request,'The information you entered appears to be invalid. Please check the highlighted fields and correct them.')
             return redirect('accounts:my_messages')
@@ -212,6 +214,13 @@ def edit_message(request,lid):
         form=LetterForm(instance=letter)
     context={'letter':letter, 'form':form,'contacts': contacts}
     return render (request,'accounts/dash_edit_message.html',context)
+
+
+def sent_message_detail(request,lid):
+    user=request.user
+    sent_letter=get_object_or_404(Letter,author=user,id=lid)
+    return render(request,'accounts/sent_letter_detail.html',{'sent_letter':sent_letter})
+
 
 @c_login_required
 def contacts(request):

@@ -90,6 +90,7 @@
                 <th>Scheduled Date</th>
                 <th>Status</th>
                 <th>Sent Date</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -101,6 +102,12 @@
                 <td class="my-msg-cell">{{ l.scheduled_date|default:"Not scheduled" }}</td>
                 <td class="my-msg-cell">Sent</td>
                 <td class="my-msg-cell">{{ l.sent_date }}</td>
+                <td>
+                    <form method="POST" action="{% url 'accounts:letter_actions' lid=l.id %}">
+                        {% csrf_token %}
+                        <button type="submit" name="action" value="detail" class="msg-action-btn">See The Message</button>
+                    </form>
+                </td>
             </tr>
             {% empty %}
             <tr>
