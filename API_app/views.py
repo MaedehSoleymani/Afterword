@@ -1,12 +1,17 @@
 from django.shortcuts import render
 from rest_framework import status
-import rest_framework.views import APIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from API_app.serializers import LetterModelSerializer, ContactModelSerializer
-from outbox.model import Letter, Contact
+from outbox.models import Letter, Contact
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication
 
 class MessageListView(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
-        messages= Letter.objects.filter(author=request.user)
+        messages=Letter.objects.filter(author=request.user)
         serializer=LetterModelSerializer(messages, many=True)
-        return Response(serialize.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)

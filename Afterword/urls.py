@@ -9,6 +9,7 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('user/',include('accounts.urls')),
     path('outbox/',include('outbox.urls')),
+    path('api/v1/', include('API_app.urls'))
 ]
 
 if settings.DEBUG:
