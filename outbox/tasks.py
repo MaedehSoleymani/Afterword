@@ -10,7 +10,7 @@ def send_confirm_email_task(self,confirm_email_url, email):
         return send_confirm_email(confirm_email_url,email)
     except Exception as e:
         print(f"Retrying confirm email: {e}")
-        raise self.retry(exc=exc, countdown=30)
+        raise self.retry(exc=e, countdown=30)
 
 
 @shared_task(bind=True, max_retries=3)
